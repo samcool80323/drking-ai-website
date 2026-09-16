@@ -102,14 +102,6 @@
 <section id="faq" class="wrap section faq-section"><div class="section-heading reveal"><div class="eyebrow">A few things you might be wondering</div><h2>Good questions.<br>Simple answers.</h2></div><div class="faqs reveal"><details open><summary>How fast is the text-back?</summary><p>Within 60 seconds of the missed call. The patient gets a personalised SMS acknowledging their call.</p></details><details><summary>Can the patient book via SMS?</summary><p>Yes. The patient replies with their preferred time, and DrKing AI books the appointment automatically.</p></details><details><summary>Does it work after hours?</summary><p>Yes. Missed call recovery operates 24/7. After-hours callers get the same instant response.</p></details><details><summary>Can it tell new and existing patients apart?</summary><p>Yes. DrKing checks your CRM and personalises the message accordingly.</p></details><details><summary>What about spam calls?</summary><p>DrKing AI screens and filters spam numbers. No text-back sent to known spam.</p></details></div></section>
 <section id="book-demo" class="cta-section"><svg class="wave" viewBox="0 0 1440 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0 15C240 40 360 0 650 13S1140 36 1440 10V30H0Z"/></svg><div class="wrap reveal"><div class="eyebrow">Your next patient is calling</div><h2>Don't let a missed call<br>be a <em>missed connection.</em></h2><p>See how DrKing turns unanswered calls into booked appointments.</p><a class="button" href="/demo">Book a demo <span class="arrow" aria-hidden="true">↗</span></a><div class="micro">A little less chasing. A lot more caring.</div></div><svg class="cta-flower" viewBox="0 0 100 120" aria-hidden="true"><path d="M50 113V53M50 92Q17 93 18 70Q44 69 50 92M50 77Q80 77 83 54Q56 54 50 77M50 51C18 71 7 41 31 34 6 12 35-1 48 24 58-5 84 9 72 30 103 35 84 64 62 48 61 75 33 74 50 51Z" stroke="currentColor" fill="none" stroke-width="2"/></svg></section>
 </main>
-
-<script>
-const menuButton=document.querySelector('.menu-toggle');const navigation=document.querySelector('#navigation');function closeMenu(){navigation.classList.remove('open');menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label','Open navigation')}menuButton.addEventListener('click',()=>{const open=menuButton.getAttribute('aria-expanded')!=='true';navigation.classList.toggle('open',open);menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Close navigation':'Open navigation')});navigation.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));document.addEventListener('keydown',event=>{if(event.key==='Escape'&navigation.classList.contains('open')){closeMenu();menuButton.focus()}});document.addEventListener('click',event=>{if(!event.target.closest('.nav'))closeMenu()});window.matchMedia('(min-width: 801px)').addEventListener('change',event=>{if(event.matches)closeMenu()});document.querySelector('#year').textContent=new Date().getFullYear();if('IntersectionObserver'in window&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-motion');const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:.08});document.querySelectorAll('.reveal').forEach(element=>observer.observe(element))}
-</script>
-
-
-
-
 <footer class="site-footer">
 <div class="site-footer-inner">
 <div class="site-footer-brand"><a href="/" aria-label="DrKing home"><img src="/drking-logo.svg" alt="DrKing"></a><p>Practical AI communication tools for Australian healthcare practices.</p></div>
@@ -121,5 +113,12 @@ const menuButton=document.querySelector('.menu-toggle');const navigation=documen
 </div>
 <div class="site-footer-bottom"><p>© <span id="year">2026</span> DrKing. All rights reserved.</p><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
 </footer>
+<script>
+const menuButton=document.querySelector('.menu-toggle');const navigation=document.querySelector('#navigation');function closeMenu(){navigation.classList.remove('open');menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label','Open navigation')}menuButton.addEventListener('click',()=>{const open=menuButton.getAttribute('aria-expanded')!=='true';navigation.classList.toggle('open',open);menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Close navigation':'Open navigation')});navigation.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));document.addEventListener('keydown',event=>{if(event.key==='Escape'&navigation.classList.contains('open')){closeMenu();menuButton.focus()}});document.addEventListener('click',event=>{if(!event.target.closest('.nav'))closeMenu()});window.matchMedia('(min-width: 801px)').addEventListener('change',event=>{if(event.matches)closeMenu()});document.querySelector('#year').textContent=new Date().getFullYear();if('IntersectionObserver'in window&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-motion');const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:.08});document.querySelectorAll('.reveal').forEach(element=>observer.observe(element))}
+</script>
+
+
+
+
 </body>
 </html>

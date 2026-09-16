@@ -104,7 +104,17 @@
 <section class="section wrap faq-section" id="faq"><div class="faq-intro reveal"><div class="eyebrow">A few things you might be wondering</div><h2>Good questions.<br>Clear answers.</h2><p>Every clinic group works a little differently. Here’s how DrKing brings the pieces together.</p></div><div class="faqs"><details><summary>Does it support different branding per location?</summary><p>Yes. Each location can retain its own branding and clinic details while your group manages enquiries, bookings and reporting centrally.</p></details><details><summary>Can patients book at any location?</summary><p>Yes. Your team can offer available appointments across connected locations, based on the patient’s preferred clinic, practitioner and appointment needs.</p></details><details><summary>Can I see performance by location?</summary><p>Yes. View calls, enquiries and bookings for an individual clinic or compare locations in one dashboard to understand performance across the group.</p></details><details><summary>Does each location keep its own phone number?</summary><p>Yes. Existing clinic numbers can connect to a centralised call workflow, so patients can keep calling the number they know. Routing and setup are confirmed during onboarding.</p></details><details><summary>Can I route calls to the nearest location?</summary><p>Yes. Call routing can direct patients to a suitable nearby clinic using their provided location or preference. Your team sets the routing rules, including opening hours and overflow handling.</p></details></div></section>
 <div class="wrap" id="get-started"><section class="closing reveal"><div class="eyebrow">Your next location shouldn’t add another gap</div><h2>Keep growing your practice.<br><em>We’ll help connect the dots.</em></h2><p>Let’s bring your locations, your teams and your patient journey together.</p><a class="btn" href="mailto:hello@drking.ai?subject=Multi-location%20clinic%20demo">Let’s talk about your clinics <span aria-hidden="true">↗</span></a><a class="btn secondary" href="/multi-location-chaos">Explore multi-location tools <span aria-hidden="true">↗</span></a></section></div>
 </main>
-
+<footer class="site-footer">
+<div class="site-footer-inner">
+<div class="site-footer-brand"><a href="/" aria-label="DrKing home"><img src="/drking-logo.svg" alt="DrKing"></a><p>Practical AI communication tools for Australian healthcare practices.</p></div>
+<nav class="site-footer-nav" aria-label="Footer navigation">
+<div><h2>Industries</h2><a href="/dentists">Dental Clinics</a><a href="/general-practice">General Practice</a><a href="/specialists">Specialists</a><a href="/allied-health">Allied Health</a></div>
+<div><h2>Solutions</h2><a href="/ai-voice-receptionist">AI Voice Receptionist</a><a href="/missed-call-recovery">Missed Call Recovery</a><a href="/appointment-reminders">Reminders</a><a href="/analytics">Analytics</a></div>
+<div><h2>Company</h2><a href="/about">About</a><a href="/integrations">Integrations</a><a href="/contact">Contact</a><a href="/demo">Book a Demo</a></div>
+</nav>
+</div>
+<div class="site-footer-bottom"><p>© <span id="year">2026</span> DrKing. All rights reserved.</p><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
+</footer>
 <script>
 const menu=document.querySelector('.menu-button'),nav=document.querySelector('#nav-links');function closeMenu(){nav.classList.remove('open');menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Open menu');menu.textContent='☰'}menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';nav.classList.toggle('open',open);menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Close menu':'Open menu');menu.textContent=open?'×':'☰'});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));document.addEventListener('keydown',e=>{if(e.key==='Escape'&nav.classList.contains('open')){closeMenu();menu.focus()}});document.addEventListener('click',e=>{if(!e.target.closest('.nav'))closeMenu()});window.matchMedia('(min-width: 761px)').addEventListener('change',closeMenu);
 const fields=['locations','enquiries','value','rate'].map(id=>document.getElementById(id)),output=document.getElementById('loss-output');const money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});fields.forEach(field=>field.addEventListener('input',()=>{if(fields.some(f=>!f.validity.valid)){output.value='Check inputs';return}const [locations,enquiries,value,rate]=fields.map(f=>Number(f.value));output.value=money.format(locations*enquiries*value*260*rate/100)}));document.getElementById('year').textContent=new Date().getFullYear();
@@ -117,15 +127,4 @@ if('IntersectionObserver' in window&!matchMedia('(prefers-reduced-motion: reduce
 
 
 
-<footer class="site-footer">
-<div class="site-footer-inner">
-<div class="site-footer-brand"><a href="/" aria-label="DrKing home"><img src="/drking-logo.svg" alt="DrKing"></a><p>Practical AI communication tools for Australian healthcare practices.</p></div>
-<nav class="site-footer-nav" aria-label="Footer navigation">
-<div><h2>Industries</h2><a href="/dentists">Dental Clinics</a><a href="/general-practice">General Practice</a><a href="/specialists">Specialists</a><a href="/allied-health">Allied Health</a></div>
-<div><h2>Solutions</h2><a href="/ai-voice-receptionist">AI Voice Receptionist</a><a href="/missed-call-recovery">Missed Call Recovery</a><a href="/appointment-reminders">Reminders</a><a href="/analytics">Analytics</a></div>
-<div><h2>Company</h2><a href="/about">About</a><a href="/integrations">Integrations</a><a href="/contact">Contact</a><a href="/demo">Book a Demo</a></div>
-</nav>
-</div>
-<div class="site-footer-bottom"><p>© <span id="year">2026</span> DrKing. All rights reserved.</p><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
-</footer>
 </body></html>

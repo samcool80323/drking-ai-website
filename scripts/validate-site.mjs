@@ -30,9 +30,14 @@ for (const file of pages) {
     if (value !== expected) problems.push({ file, type: 'structure', detail: `${name}: expected ${expected}, found ${value}` });
   }
 
+  const footerYear = html.indexOf('id="year"');
+
   for (const [index, match] of [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].entries()) {
     const [, attrs, source] = match;
     if (/\bsrc=/i.test(attrs)) continue;
+    if (!/application\/ld\+json/i.test(attrs) && /(?:getElementById\(["']year["']\)|querySelector\(["']#year["']\))/i.test(source) && (footerYear < 0 || footerYear > match.index)) {
+      problems.push({ file, type: 'dom-order', detail: 'footer year is unavailable to synchronous page script' });
+    }
     try {
       if (/application\/ld\+json/i.test(attrs)) JSON.parse(source);
       else new vm.Script(source, { filename: `${file}:inline-script-${index + 1}` });

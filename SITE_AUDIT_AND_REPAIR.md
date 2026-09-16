@@ -24,6 +24,7 @@
 | Moderate | Repeated footer implementations | Inline footer copied to every page with inconsistent structure | Fixed with shared responsive footer |
 | Moderate | Content fragment defect | Legal copy ended with “or write to .” | Fixed |
 | Moderate | Obsolete live-page fragment CTA | CTA targeted `#button-LZar9xGjf-` on the live homepage | Fixed to `/demo` |
+| Critical regression | Reveal content hidden after shared-footer insertion | Synchronous page scripts enabled `.js` reveal styles, then threw because `#year` had not been parsed yet | Fixed by placing the shared footer before page-end scripts and validating DOM order |
 
 ## Implemented repairs
 
@@ -49,6 +50,7 @@
 - [x] Verified all 42 clean local routes and core shared assets over HTTP: 42/42 returned 200.
 - [x] Verified sitemap/page parity: 42 sitemap routes and 42 HTML pages, no omissions or extras.
 - [x] Verified the normalisation process is idempotent by comparing full-file hashes across consecutive runs.
+- [x] Verified synchronous page scripts do not reference `#year` before the shared footer exists in the DOM.
 - [x] Confirmed only Geomanist and Newsreader are named font families (plus generic fallbacks).
 - [x] Confirmed the linked ABS 2024–25 source supports the page's 26% GP waiting-time statement.
 - [x] Confirmed the ICO, ABS and Harvard Business School third-party reference pages resolve.

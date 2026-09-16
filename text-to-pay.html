@@ -114,14 +114,6 @@
 <svg class="wave" viewBox="0 0 1440 50" preserveAspectRatio="none" aria-hidden="true"><path d="M0 24c242-32 424 31 711 7s487-26 729-9v28H0Z" fill="#e7ede3"/></svg>
 <section class="cta-section"><svg class="cta-decoration" viewBox="0 0 90 120" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M46 115c-2-40 5-70 11-104M49 90C15 83 12 59 14 51c21 1 36 17 35 39ZM51 65c26-3 36-20 34-33-21 1-34 16-34 33ZM55 41C36 33 30 13 35 3c18 6 23 20 20 38Z"/></svg><div class="reveal"><div class="eyebrow">Back to what you do best</div><h2>Care for your patients.<br>We’ll care for <em>the payments.</em></h2><p>Give your team their time back. See how DrKing can make getting paid the easiest part of your day.</p><a class="button" href="/demo">Book your free demo <span class="arrow" aria-hidden="true">↗</span></a><p class="small-note">A friendly walkthrough. No pressure.</p></div></section>
 </main>
-
-<script>
-(()=>{'use strict';const toggle=document.querySelector('.menu-toggle'),nav=document.getElementById('navigation');function closeMenu(){toggle.setAttribute('aria-expanded','false');nav.classList.remove('is-open');toggle.textContent='Menu'}toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';toggle.setAttribute('aria-expanded',String(open));nav.classList.toggle('is-open',open);toggle.textContent=open?'Close':'Menu'});nav.addEventListener('click',event=>{if(event.target.closest('a'))closeMenu()});document.addEventListener('keydown',event=>{if(event.key==='Escape'&toggle.getAttribute('aria-expanded')==='true'){closeMenu();toggle.focus()}});document.addEventListener('click',event=>{if(!nav.contains(event.target)&!toggle.contains(event.target))closeMenu()});const mobile=matchMedia('(max-width:760px)');mobile.addEventListener('change',closeMenu);document.getElementById('year').textContent=new Date().getFullYear();const reduced=matchMedia('(prefers-reduced-motion:reduce)');if('IntersectionObserver'in window&!reduced.matches){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:.08});document.documentElement.classList.add('js-motion');document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));reduced.addEventListener('change',()=>{if(reduced.matches){document.documentElement.classList.remove('js-motion');observer.disconnect()}})}})();
-</script>
-
-
-
-
 <footer class="site-footer">
 <div class="site-footer-inner">
 <div class="site-footer-brand"><a href="/" aria-label="DrKing home"><img src="/drking-logo.svg" alt="DrKing"></a><p>Practical AI communication tools for Australian healthcare practices.</p></div>
@@ -133,5 +125,12 @@
 </div>
 <div class="site-footer-bottom"><p>© <span id="year">2026</span> DrKing. All rights reserved.</p><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
 </footer>
+<script>
+(()=>{'use strict';const toggle=document.querySelector('.menu-toggle'),nav=document.getElementById('navigation');function closeMenu(){toggle.setAttribute('aria-expanded','false');nav.classList.remove('is-open');toggle.textContent='Menu'}toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';toggle.setAttribute('aria-expanded',String(open));nav.classList.toggle('is-open',open);toggle.textContent=open?'Close':'Menu'});nav.addEventListener('click',event=>{if(event.target.closest('a'))closeMenu()});document.addEventListener('keydown',event=>{if(event.key==='Escape'&toggle.getAttribute('aria-expanded')==='true'){closeMenu();toggle.focus()}});document.addEventListener('click',event=>{if(!nav.contains(event.target)&!toggle.contains(event.target))closeMenu()});const mobile=matchMedia('(max-width:760px)');mobile.addEventListener('change',closeMenu);document.getElementById('year').textContent=new Date().getFullYear();const reduced=matchMedia('(prefers-reduced-motion:reduce)');if('IntersectionObserver'in window&!reduced.matches){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:.08});document.documentElement.classList.add('js-motion');document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));reduced.addEventListener('change',()=>{if(reduced.matches){document.documentElement.classList.remove('js-motion');observer.disconnect()}})}})();
+</script>
+
+
+
+
 </body>
 </html>

@@ -161,7 +161,11 @@ for (const file of pages) {
   html = html.replace(/<span\b([^>]*\bclass=["'][^"']*\bstatus\b[^"']*["'][^>]*\baria-label=["'][^"']+["'][^>]*)>/gi, (tag, attributes) => /\brole=/i.test(attributes) ? tag : `<span role="status"${attributes}>`);
   html = html.replace(/<svg\b([^>]*\baria-label=["'][^"']+["'][^>]*)>/gi, (tag, attributes) => /\brole=/i.test(attributes) ? tag : `<svg role="img"${attributes}>`);
   html = html.replace(/<label class="calc-label" for="residents">([\s\S]*?<input[^>]*id="residents"[^>]*>)<\/label>/gi, '<label class="calc-label">$1</label>');
-  html = html.replace(/<\/body>/i, `${siteFooter}\n</body>`);
+  // Keep the footer before page-end inline scripts. Several original page
+  // controllers update #year synchronously and also enable reveal animations;
+  // placing the footer after those scripts makes the year lookup throw and can
+  // leave the page content permanently transparent.
+  html = html.replace(/<\/main>/i, `</main>\n${siteFooter}`);
 
   const assets = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300..600;1,300..600&amp;display=swap" rel="stylesheet">\n<link rel="stylesheet" href="/assets/site-shell.css">\n<script src="/assets/site-shell.js" defer></script>\n';
   html = html.replace(/<\/head>/i, `${assets}</head>`);

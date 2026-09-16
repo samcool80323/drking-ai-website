@@ -134,15 +134,6 @@
 <svg class="wave" viewBox="0 0 1440 45" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30C258-15 402 42 726 23S1197 0 1440 21v24H0Z" fill="#F0D4DC"/></svg>
 <section class="closing" aria-labelledby="closing-title"><svg class="flourish" viewBox="0 0 180 210" fill="none" stroke="#8B3A5C" stroke-width="1.5" aria-hidden="true"><path d="M70 185c40-46 59-93 44-153M100 128c-48-2-69-21-62-44 32 0 57 16 62 44m10-29c40-5 53-25 42-43-29 6-43 23-42 43m0-30C81 62 70 46 79 26c24 8 33 24 31 43"/></svg><p class="eyebrow">Catch the moment</p><h2 id="closing-title">Their next confidence boost<br>starts with <em>your first response.</em></h2><p>Make every “I’ve been thinking about it” the start of something.</p><a href="/demo" class="button">Let’s fill your consultation book <span class="arrow" aria-hidden="true">↗</span></a><svg class="flourish right" viewBox="0 0 180 210" fill="none" stroke="#8B3A5C" stroke-width="1.5" aria-hidden="true"><path d="M70 185c40-46 59-93 44-153M100 128c-48-2-69-21-62-44 32 0 57 16 62 44m10-29c40-5 53-25 42-43-29 6-43 23-42 43m0-30C81 62 70 46 79 26c24 8 33 24 31 43"/></svg></section>
 </main>
-<script>
-const menuButton=document.querySelector('.menu-toggle');const menu=document.querySelector('.nav-links');function closeMenu(){menu.classList.remove('open');menuButton.setAttribute('aria-expanded','false');menuButton.textContent='Menu'}menuButton.addEventListener('click',()=>{const open=menuButton.getAttribute('aria-expanded')!=='true';menuButton.setAttribute('aria-expanded',String(open));menu.classList.toggle('open',open);menuButton.textContent=open?'Close':'Menu'});menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));document.addEventListener('keydown',e=>{if(e.key==='Escape'&menu.classList.contains('open')){closeMenu();menuButton.focus()}});document.addEventListener('click',e=>{if(!e.target.closest('.nav'))closeMenu()});window.matchMedia('(min-width:761px)').addEventListener('change',closeMenu);
-const enquiries=document.getElementById('enquiries'),value=document.getElementById('value'),lossOutput=document.getElementById('loss-output');const money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});function updateLoss(){if(!enquiries.validity.valid||!value.validity.valid||enquiries.value===''||value.value===''){lossOutput.textContent='Enter valid amounts';return}lossOutput.textContent=money.format(Number(enquiries.value)*.78*Number(value.value)*365)}enquiries.addEventListener('input',updateLoss);value.addEventListener('input',updateLoss);updateLoss();document.getElementById('year').textContent=new Date().getFullYear();
-if('IntersectionObserver'in window&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));document.documentElement.classList.add('motion')}
-</script>
-
-
-
-
 <footer class="site-footer">
 <div class="site-footer-inner">
 <div class="site-footer-brand"><a href="/" aria-label="DrKing home"><img src="/drking-logo.svg" alt="DrKing"></a><p>Practical AI communication tools for Australian healthcare practices.</p></div>
@@ -154,5 +145,14 @@ if('IntersectionObserver'in window&!window.matchMedia('(prefers-reduced-motion: 
 </div>
 <div class="site-footer-bottom"><p>© <span id="year">2026</span> DrKing. All rights reserved.</p><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
 </footer>
+<script>
+const menuButton=document.querySelector('.menu-toggle');const menu=document.querySelector('.nav-links');function closeMenu(){menu.classList.remove('open');menuButton.setAttribute('aria-expanded','false');menuButton.textContent='Menu'}menuButton.addEventListener('click',()=>{const open=menuButton.getAttribute('aria-expanded')!=='true';menuButton.setAttribute('aria-expanded',String(open));menu.classList.toggle('open',open);menuButton.textContent=open?'Close':'Menu'});menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));document.addEventListener('keydown',e=>{if(e.key==='Escape'&menu.classList.contains('open')){closeMenu();menuButton.focus()}});document.addEventListener('click',e=>{if(!e.target.closest('.nav'))closeMenu()});window.matchMedia('(min-width:761px)').addEventListener('change',closeMenu);
+const enquiries=document.getElementById('enquiries'),value=document.getElementById('value'),lossOutput=document.getElementById('loss-output');const money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});function updateLoss(){if(!enquiries.validity.valid||!value.validity.valid||enquiries.value===''||value.value===''){lossOutput.textContent='Enter valid amounts';return}lossOutput.textContent=money.format(Number(enquiries.value)*.78*Number(value.value)*365)}enquiries.addEventListener('input',updateLoss);value.addEventListener('input',updateLoss);updateLoss();document.getElementById('year').textContent=new Date().getFullYear();
+if('IntersectionObserver'in window&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));document.documentElement.classList.add('motion')}
+</script>
+
+
+
+
 </body>
 </html>
