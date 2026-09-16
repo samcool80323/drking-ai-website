@@ -31,6 +31,7 @@
 | Major | Overseas and unsupported compliance positioning | HIPAA/GDPR and certification-style badges appeared across healthcare pages and structured data | Fixed: removed site-wide and replaced with Australian Privacy Principles, data-minimisation and deployment-specific language |
 | Major | Australian-market inconsistencies | All pages declared generic English; one calculator still labelled values as US dollars and three used ambiguous compact dollar output | Fixed: all 42 pages use `en-AU`; calculators use AUD formatters or explicit `A$`; shared footer states the currency convention |
 | Major | Privacy and terms pages were not ready for an Australian production site | UK regulator link, EU-style legal-basis language and visible template warnings | Fixed locally with Australian privacy rights/OAIC complaint route, overseas-disclosure wording, Victorian governing law and Australian Consumer Law preservation; legal review remains recommended |
+| Major | Shared links had no dependable visual preview | Pages had titles and descriptions but no universal Open Graph image; several requested only a small X/Twitter summary card | Fixed locally with a branded 1200×630 JPEG and complete Open Graph/X image metadata across all 42 pages |
 
 ## Implemented repairs
 
@@ -47,6 +48,7 @@
 - Added a Cloudflare Pages Function with same-origin checks, payload limits, a honeypot, field limits, D1 persistence, structured logs and an optional secret `LEAD_WEBHOOK_URL` handoff to the configured CRM.
 - Added the D1 `enquiries` migration and repeatable endpoint tests.
 - Updated privacy, security and terms content for the primary Australian market and removed HIPAA, GDPR, PCI-compliance and ISO-certification claims that were not substantiated for this deployment.
+- Added a 1200×630, 183 KB branded social card plus universal Open Graph image, secure URL, type, dimensions, alt text, large-card and X image metadata to every page.
 
 ## Verification actually performed
 
@@ -73,6 +75,8 @@
 - [x] Confirmed all nine HTML forms are connected to the shared submission controller; no unmanaged HTML form remains.
 - [x] Confirmed all 42 documents declare `en-AU`; no HIPAA, GDPR, USD, US-dollar, UK ICO or old-address references remain.
 - [x] Ran the normaliser twice after the Australian/currency/form changes and repeated structural, script and HTML validation successfully.
+- [x] Inspected the final social image at its original 1200×630 size; verified JPEG format, readable safe-area text and a 183 KB payload.
+- [x] Confirmed all 42 pages contain the shared Open Graph image, dimensions, alt text, large-card directive and X image reference; repeated HTML/structure validation and the idempotence check.
 - [ ] Browser visual, keyboard and console pass at mobile/tablet/desktop widths.
 - [ ] Core Web Vitals trace and before/after browser screenshots.
 
