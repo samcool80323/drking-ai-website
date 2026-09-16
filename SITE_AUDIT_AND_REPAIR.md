@@ -5,8 +5,8 @@
 - Audited and repaired all 42 standalone HTML pages on `codex/sitewide-ui-ux-repair`.
 - Preserved page-specific content and visual direction; this is not a redesign.
 - Typography is restricted to Geomanist for UI/body copy and Newsreader for headings/editorial copy.
-- No push, merge, deployment, form submission, message, purchase or external-service change was performed.
-- Forms remain email-draft or `mailto:` experiences. No backend was invented.
+- No real form submission, message or purchase was performed during testing.
+- A Cloudflare Pages Function and D1 migration are implemented locally, but production deployment remains blocked until an authorised Cloudflare token can create/bind the database and configure the optional CRM webhook.
 
 ## Confirmed baseline defects
 
@@ -27,6 +27,10 @@
 | Critical regression | Reveal content hidden after shared-footer insertion | Synchronous page scripts enabled `.js` reveal styles, then threw because `#year` had not been parsed yet | Fixed by placing the shared footer before page-end scripts and validating DOM order |
 | Major content inconsistency | Cliniko, Nookal, Power Diary and Dentally were shown as waitlist integrations after being confirmed available | Integrations page hero, waitlist rows, form options and JSON-LD all used the old status | Fixed; promoted to a responsive active section and removed from waitlist surfaces |
 | Major business-detail inconsistency | The previous Fawkner address remained in visible Contact content and four structured-data records | `119 Jukes Rd, Fawkner VIC 3060` appeared on Contact, Home, Dentists and General Practice | Fixed to `1 Elgin Pl, Hawthorn VIC 3122`, including the Google Maps link and accessible label |
+| Critical | Website forms did not reliably submit anywhere | Eight forms opened email drafts; Client Intake opened a draft with no recipient | Fixed locally: all nine forms use one same-site submission endpoint, durable D1 storage and an explicit email fallback only after an endpoint failure |
+| Major | Overseas and unsupported compliance positioning | HIPAA/GDPR and certification-style badges appeared across healthcare pages and structured data | Fixed: removed site-wide and replaced with Australian Privacy Principles, data-minimisation and deployment-specific language |
+| Major | Australian-market inconsistencies | All pages declared generic English; one calculator still labelled values as US dollars and three used ambiguous compact dollar output | Fixed: all 42 pages use `en-AU`; calculators use AUD formatters or explicit `A$`; shared footer states the currency convention |
+| Major | Privacy and terms pages were not ready for an Australian production site | UK regulator link, EU-style legal-basis language and visible template warnings | Fixed locally with Australian privacy rights/OAIC complaint route, overseas-disclosure wording, Victorian governing law and Australian Consumer Law preservation; legal review remains recommended |
 
 ## Implemented repairs
 
@@ -39,11 +43,18 @@
 - Repaired page-body structure on the five malformed page types and malformed JSON-LD on Case Studies and Referral Partner.
 - Added reproducible audit, validation, normalisation and clean-URL preview scripts.
 - Added a dedicated active-integrations section for Cliniko, Nookal, Power Diary and Dentally, with matching hero, metadata, waitlist and structured-data updates.
+- Added one form submission controller for all nine forms. It validates in the browser, posts JSON to `/api/enquiries`, reports success only after a stored response, and gives a prefilled `info@drking.ai` fallback without claiming the request was sent.
+- Added a Cloudflare Pages Function with same-origin checks, payload limits, a honeypot, field limits, D1 persistence, structured logs and an optional secret `LEAD_WEBHOOK_URL` handoff to the configured CRM.
+- Added the D1 `enquiries` migration and repeatable endpoint tests.
+- Updated privacy, security and terms content for the primary Australian market and removed HIPAA, GDPR, PCI-compliance and ISO-certification claims that were not substantiated for this deployment.
 
 ## Verification actually performed
 
 - [x] `node scripts/validate-site.mjs`: 42 pages, zero structural/script/JSON-LD problems.
 - [x] `html-validate '*.html'`: all 42 pages passed the configured recommended rules.
+- [x] `node scripts/test-enquiry-function.mjs`: valid enquiries persist; invalid email, cross-origin and missing-binding cases return the expected status.
+- [x] Cloudflare Pages Functions compiler: the `/api/enquiries` Worker bundle compiled successfully.
+- [x] D1 migration SQL parsed successfully in SQLite.
 - [x] `node scripts/audit-site.mjs`: zero duplicate IDs, missing font assets, broken internal references or duplicate menu controllers.
 - [x] Parsed every inline JavaScript block with Node's JavaScript parser.
 - [x] Parsed every JSON-LD block as JSON.
@@ -56,9 +67,12 @@
 - [x] Verified synchronous page scripts do not reference `#year` before the shared footer exists in the DOM.
 - [x] Confirmed only Geomanist and Newsreader are named font families (plus generic fallbacks).
 - [x] Confirmed the linked ABS 2024–25 source supports the page's 26% GP waiting-time statement.
-- [x] Confirmed the ICO, ABS and Harvard Business School third-party reference pages resolve.
+- [x] Confirmed the OAIC, ABS and Harvard Business School third-party reference pages resolve.
 - [x] Confirmed the four available integrations appear once in the active section, do not remain in the waitlist or waitlist form, and carry `Available now` in JSON-LD.
 - [x] Searched the full website source for the old street, suburb and postcode; no stale Fawkner address references remain.
+- [x] Confirmed all nine HTML forms are connected to the shared submission controller; no unmanaged HTML form remains.
+- [x] Confirmed all 42 documents declare `en-AU`; no HIPAA, GDPR, USD, US-dollar, UK ICO or old-address references remain.
+- [x] Ran the normaliser twice after the Australian/currency/form changes and repeated structural, script and HTML validation successfully.
 - [ ] Browser visual, keyboard and console pass at mobile/tablet/desktop widths.
 - [ ] Core Web Vitals trace and before/after browser screenshots.
 
@@ -68,6 +82,9 @@
 - The dedicated Chrome DevTools performance trace integration is unavailable in this task, so no Lighthouse/Core Web Vitals numbers are claimed.
 - The Google Maps and LeadConnector form destinations could not be opened by the safe web checker. Their URLs were preserved and no form was submitted.
 - Because browser execution is blocked, responsive layout, visible focus, keyboard interaction and runtime console behaviour are strongly covered by code/static checks but not claimed as visually verified.
+- The available `CF_API_TOKEN` is rejected by Cloudflare with authentication error 10000, so D1 creation, the `DB` binding, CRM webhook secret and production deployment could not be completed safely. Publishing the form copy before that binding exists would make automatic submissions fall back to email.
+- No GoHighLevel/LeadConnector inbound webhook URL was available. Until one is supplied as the `LEAD_WEBHOOK_URL` secret, enquiries can be retained in D1 but cannot be forwarded automatically into the CRM.
+- Privacy and terms have been adapted for the Australian market, but they remain business legal documents and should be reviewed by Australian counsel before being treated as final legal advice.
 
 ## Preview and repeatable commands
 

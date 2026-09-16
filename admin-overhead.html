@@ -50,6 +50,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300..600;1,300..600&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site-shell.css">
 <script src="/assets/site-shell.js" defer></script>
+<script src="/assets/form-submissions.js" defer></script>
 </head>
 <body>
 <!-- legacy-nav-proxies:start --><div hidden class="legacy-nav-proxies"><button type="button" class="menu-toggle menu-button mobile-toggle" aria-expanded="false"></button><div class="nav-links navlinks" id="nav-links"></div><div id="navigation"></div><div id="main-nav"></div><div id="mobile-menu"></div><div class="dropdown"></div><div class="industry"></div></div><!-- legacy-nav-proxies:end -->
@@ -111,7 +112,7 @@
 <div><h2>Company</h2><a href="/about">About</a><a href="/integrations">Integrations</a><a href="/contact">Contact</a><a href="/demo">Book a Demo</a></div>
 </nav>
 </div>
-<div class="site-footer-bottom"><p>© <span id="year">2026</span> DrKing. All rights reserved.</p><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
+<div class="site-footer-bottom"><p>© <span id="year">2026</span> DrKing. All rights reserved. All dollar amounts are AUD unless stated otherwise.</p><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
 </footer>
 <script>
 (()=>{document.documentElement.classList.add('js');const toggle=document.querySelector('.menu-toggle'),menu=document.querySelector('.nav-links');function closeMenu(){menu.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Open menu')}toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';menu.classList.toggle('open',open);toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Close menu':'Open menu')});menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));document.addEventListener('keydown',e=>{if(e.key==='Escape'&menu.classList.contains('open')){closeMenu();toggle.focus()}});document.addEventListener('click',e=>{if(!e.target.closest('.nav'))closeMenu()});matchMedia('(min-width:761px)').addEventListener('change',e=>{if(e.matches)closeMenu()});document.querySelector('#year').textContent=new Date().getFullYear();const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!reduced&'IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.remove('pending');observer.unobserve(entry.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>{el.classList.add('pending');observer.observe(el)});const countObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;const el=entry.target,value=Number(el.dataset.count),decimals=Number(el.dataset.decimals||0),start=performance.now();function tick(now){const t=Math.min((now-start)/1100,1),n=value*(1-Math.pow(1-t,3));el.textContent=(el.dataset.prefix||'')+n.toFixed(decimals)+(el.dataset.suffix||'');if(t<1)requestAnimationFrame(tick)}requestAnimationFrame(tick);countObserver.unobserve(el)}),{threshold:.5});document.querySelectorAll('[data-count]').forEach(el=>countObserver.observe(el))}})();

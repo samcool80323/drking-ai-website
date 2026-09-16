@@ -55,12 +55,14 @@ const siteFooter = `<footer class="site-footer">
 <div><h2>Company</h2><a href="/about">About</a><a href="/integrations">Integrations</a><a href="/contact">Contact</a><a href="/demo">Book a Demo</a></div>
 </nav>
 </div>
-<div class="site-footer-bottom"><p>© <span id="year">2026</span> DrKing. All rights reserved.</p><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
+<div class="site-footer-bottom"><p>© <span id="year">2026</span> DrKing. All rights reserved. All dollar amounts are AUD unless stated otherwise.</p><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
 </footer>`;
 
 for (const file of pages) {
   const full = path.join(root, file);
   let html = fs.readFileSync(full, 'utf8');
+
+  html = html.replace(/<html\s+lang=["'][^"']+["']/i, '<html lang="en-AU"');
 
   html = html.replace(/<link[^>]+(?:fonts\.googleapis\.com|fonts\.gstatic\.com|\/assets\/site-shell\.css)[^>]*>\s*/gi, '');
   html = html.replace(/<style>html\{overflow-x:hidden!important\}body\{overflow-x:hidden!important\}<\/style>\s*/gi, '');
@@ -97,16 +99,142 @@ for (const file of pages) {
   html = html.replaceAll('/multi-location-management', '/multi-location-chaos');
   html = html.replaceAll('/#book-demo', '/demo');
   html = html.replaceAll(' or write to .', '.');
+  html = html.replaceAll('hello@drking.ai', 'info@drking.ai');
+
+  // Keep security and privacy language aligned with the Australian market.
+  // Avoid advertising overseas frameworks or unverified certifications.
+  const securityAnswer = 'Clinical records remain in your practice management system. DrKing’s data handling is reviewed against the Australian Privacy Principles and the requirements agreed for your deployment. Ask us about the applicable controls and responsibilities.';
+  const securityClaims = [
+    'No clinical data is stored. DrKing is designed to support GDPR and Australian Privacy Principles requirements, with HIPAA-ready workflows and PCI-compliant payments. Ask us about the controls and configuration for your practice.',
+    'DrKing does not store clinical or patient health records. It operates on secure, encrypted infrastructure compliant with GDPR, Australian Privacy Principles, and HIPAA for communication workflows.',
+    'No clinical data is stored. DrKing is built around GDPR and Australian Privacy Principles (APP), is HIPAA ready, and supports PCI-compliant payments.',
+    'No clinical data is stored in DrKing. The platform uses GDPR, Australian Privacy Principles and HIPAA-ready infrastructure. Ask our team about the security requirements for your particular setup.',
+    'No clinical data is stored. DrKing is designed to support GDPR and Australian Privacy Principles requirements, with HIPAA-ready workflows and PCI-compliant payments. Ask us about the controls and configuration for your practice.',
+  ];
+  for (const claim of securityClaims) html = html.replaceAll(claim, securityAnswer);
+  html = html.replaceAll('GDPR<small>Privacy</small>', 'Data<small>Minimisation</small>');
+  html = html.replaceAll('HIPAA<small>Ready</small>', 'Australian<small>Focused</small>');
+  html = html.replaceAll('GDPR', 'Data minimisation');
+  html = html.replaceAll('HIPAA Ready', 'Australian-focused');
+  html = html.replaceAll('HIPAA readiness', 'Australian deployment review');
+  html = html.replaceAll('HIPAA-ready', 'Australian-focused');
+  html = html.replaceAll('HIPAA', 'Australian Privacy Principles');
+  html = html.replaceAll('PCI Compliant', 'Secure payment handling');
+  html = html.replaceAll('PCI<small>Compliant</small>', 'Payments<small>Secure handling</small>');
+  html = html.replaceAll('PCI-compliant payments', 'secure payment handling');
+  html = html.replaceAll('PCI compliance', 'secure payment handling');
+  html = html.replaceAll('ISO-Certified Servers', 'Deployment-specific review');
+  html = html.replaceAll('ISO-Certified<br>Servers', 'Deployment-specific<br>review');
+  html = html.replaceAll('ISO-certified servers', 'deployment-specific review');
+
+  // Forms now submit to the same-site enquiry service. Email remains a
+  // clearly labelled fallback only when the endpoint is unavailable.
+  html = html.replaceAll('This opens your email app with your details ready to send. Add your DrKing contact, review, and send to get started.', 'Submitted securely to DrKing. Business details only, please; do not include patient information or passwords.');
+  html = html.replaceAll('Opens an email draft.<br>Review it, then hit send.', 'Submitted securely to DrKing.<br>Business details only, please.');
+  html = html.replaceAll('This opens a draft in your email app to info@drking.ai. Review and send it to request your demo. Please don’t include patient or clinical information.', 'Submitted securely to DrKing. Please don’t include patient or clinical information.');
+  html = html.replaceAll('This will open your email app with a pre-filled draft. Review it and press send to complete your request.', 'Your request is submitted securely to DrKing. Please don’t include patient or clinical information.');
+  html = html.replaceAll('Your email draft is ready. Review it in your email app, add your DrKing contact, and press send. Your details have not been submitted yet.', 'Your details are ready to submit securely to DrKing.');
+  html = html.replaceAll('Opens a prefilled email. Just review and send.<br>Your details are only used to arrange your demo.', 'Submitted securely to DrKing.<br>Your details are only used to arrange your demo.');
+  html = html.replaceAll('Tell us a little about your team. We’ll prepare an email request for you to send to DrKing.', 'Tell us a little about your team and submit your demo request securely to DrKing.');
+  html = html.replaceAll('Prepare my demo email', 'Submit my demo request');
+  html = html.replaceAll('Opens your email app. Send the draft to request your demo. Please don’t include resident or health information. You can also email', 'Submitted securely to DrKing. Please don’t include resident or health information. If the service is unavailable, email');
+  html = html.replaceAll('Tell us a little about your practice. Send your request by email and our team will help find a time that suits you.', 'Tell us a little about your practice and submit your request securely. Our team will help find a time that suits you.');
+  html = html.replaceAll('Email my demo request', 'Submit my demo request');
+  html = html.replaceAll('Opens your email app with your request ready to send. Or call', 'Submitted securely to DrKing. Or call');
+  html = html.replaceAll('This form opens your email app with your enquiry ready to send.', 'This form submits your enquiry securely to DrKing.');
+  html = html.replaceAll('Email My Demo Request', 'Submit My Demo Request');
+  html = html.replaceAll('Opens a prefilled email to <a href="mailto:info@drking.ai">info@drking.ai</a>. Send it from your email app to register your interest.', 'Submitted securely to DrKing. If the service is unavailable, use the email fallback shown after you submit.');
+
+  const formTypes = {
+    'demo-form': 'demo-request',
+    'enquiry-form': 'general-enquiry',
+    'waitlist-form': 'integration-waitlist',
+    'intake-form': 'client-intake',
+  };
+  html = html.replace(/<form\b([^>]*\bid=["']([^"']+)["'][^>]*)>/gi, (tag, attributes, id) => {
+    const type = formTypes[id];
+    if (!type || /\bdata-drking-form=/i.test(attributes)) return tag;
+    return `<form${attributes} data-drking-form="${type}">`;
+  });
 
   if (file === 'integrations.html') {
     html = html.replace(/<script>document\.addEventListener\("DOMContentLoaded",function\(\)\{var mt=document\.querySelector\("\.menu-toggle"\)[\s\S]*?<\/script>\s*/i, '');
     html = html.replace("document.documentElement.classList.add('js');\nconst menu=document.querySelector('.menu-toggle'), navigation=document.querySelector('.nav-links');\nfunction closeMenu(){navigation.classList.remove('open');menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Open menu')}\nmenu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';navigation.classList.toggle('open',open);menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Close menu':'Open menu')});\nnavigation.addEventListener('click',e=>{if(e.target.closest('a'))closeMenu()});\ndocument.addEventListener('keydown',e=>{if(e.key==='Escape'&menu.getAttribute('aria-expanded')==='true'){closeMenu();menu.focus()}});\ndocument.addEventListener('click',e=>{if(!e.target.closest('.nav'))closeMenu()});\nwindow.matchMedia('(min-width:601px)').addEventListener('change',closeMenu);\n", "document.documentElement.classList.add('js');\n");
+  }
+  if (file === 'contact.html') {
+    html = html.replaceAll('or start an email draft.', 'or send an online enquiry.');
+    html = html.replaceAll('Absolutely. Use the , or call us on', 'Absolutely. Use the enquiry form, or call us on');
+    html = html.replaceAll('The form opens your email app with a draft addressed to our team. Your message is only sent when you send that email. If no email app opens, copy your message into an email to <a href="mailto:info@drking.ai">info@drking.ai</a>.', 'The form securely records your enquiry for the DrKing team. If the service is unavailable, you can choose the clearly labelled email fallback.');
+    html = html.replaceAll('You’ll find us at , Australia.', 'You’ll find us at 1 Elgin Pl, Hawthorn VIC 3122, Australia.');
+  }
+  if (file === 'privacy.html') {
+    html = html.replace(/<div class="template-note">[\s\S]*?<\/div>\s*/i, '');
+    const formPrivacyParagraph = '<p>Website enquiry forms send business contact details to DrKing’s Cloudflare-hosted enquiry service. Enquiries are stored in an access-controlled database and may be forwarded to the configured customer relationship management system.</p>';
+    if (!html.includes(formPrivacyParagraph)) {
+      html = html.replaceAll(
+        '<p>Please only share information needed for your enquiry. This website is not a channel for providing patient health records or requesting medical care.</p>',
+        `<p>Please only share information needed for your enquiry. This website is not a channel for providing patient health records or requesting medical care.</p>${formPrivacyParagraph}`,
+      );
+    }
+    while (html.includes(formPrivacyParagraph + formPrivacyParagraph)) html = html.replaceAll(formPrivacyParagraph + formPrivacyParagraph, formPrivacyParagraph);
+    html = html.replaceAll(
+      '<p>Where applicable law requires a legal basis, we rely on the performance of a contract, compliance with a legal obligation, our legitimate interests in running and securing the service, or your consent. The basis depends on the information and the purpose for which it is used.</p>',
+      '<p>We handle personal information for the purposes for which it was collected, related purposes you would reasonably expect, purposes you consent to, and purposes otherwise permitted or required by Australian law.</p>',
+    );
+    html = html.replaceAll(
+      '<p>If information is processed outside your country, applicable data protection requirements and appropriate transfer safeguards should be followed. The protections available in another country may differ from those where you live.</p>',
+      '<p>If personal information is disclosed to a recipient outside Australia, we assess the arrangement against the Australian Privacy Principles and take reasonable steps appropriate to the circumstances. Privacy protections in another country may differ from those in Australia.</p>',
+    );
+    html = html.replaceAll(
+      '<p>Depending on your location and applicable law, you may have the right to:</p><ul><li>Request access to the personal information held about you.</li><li>Ask for inaccurate or incomplete information to be corrected.</li><li>Request deletion, restriction, or a portable copy of your information.</li><li>Object to certain processing, including direct marketing.</li><li>Withdraw consent where processing is based on your consent.</li></ul><p>To make a request, use the contact guidance below. We may need to verify your identity before responding. Some rights are subject to legal exceptions; requests should be handled within the time limits required by applicable law.</p><p>You may also raise a concern with your local data protection authority. For information about UK privacy rights, visit the <a href="https://ico.org.uk/for-the-public/">Information Commissioner’s Office</a>.</p>',
+      '<p>Under Australian privacy law, you may ask to:</p><ul><li>Access personal information we hold about you.</li><li>Correct personal information that is inaccurate, out of date, incomplete, irrelevant, or misleading.</li><li>Opt out of direct marketing communications.</li><li>Make a privacy complaint and receive a response.</li></ul><p>To make a request, use the contact guidance below. We may need to verify your identity before responding, and legal exceptions may apply.</p><p>If you are not satisfied with our response, you can contact the <a href="https://www.oaic.gov.au/privacy/privacy-complaints">Office of the Australian Information Commissioner</a>.</p>',
+    );
+    html = html.replaceAll('<a class="button" href="https://drking.ai/">Visit DrKing', '<a class="button" href="/contact">Contact DrKing');
+  }
+  if (file === 'security.html') {
+    html = html.replaceAll('Explore DrKing security compliance: no clinical data stored, enterprise-grade protection, complete communication records, and privacy-conscious automation for your clinic.', 'Explore DrKing’s Australian-focused security approach, data boundaries and deployment-specific controls for clinic communication workflows.');
+    html = html.replaceAll('No clinical data stored. Built secure from the ground up. Explore security and privacy at DrKing.', 'Clinical records remain in your practice system. Explore DrKing’s security and privacy approach.');
+    html = html.replaceAll('No clinical data stored.<br>Built <em>secure</em> from<br>the ground up.', 'Clinical records stay<br>in your <em>practice system.</em>');
+    html = html.replaceAll('DrKing intentionally avoids handling patient health records. We focus solely on lead generation, communication, and automation — keeping your clinic secure and compliant with Australian healthcare standards.', 'DrKing is designed for enquiries, communication and business automation, while clinical records remain in your practice systems. The controls and responsibilities for your deployment are confirmed during setup.');
+    html = html.replaceAll('Enterprise-grade<br>protection.', 'Access controls,<br>confirmed for you.');
+    html = html.replaceAll('Two-factor authentication, role-based access, and audit logs help keep your account protected and the right information in the right hands.', 'Available identity, access and activity-recording controls are confirmed for your selected services and deployment before rollout.');
+    html = html.replaceAll('Complete communication<br>records.', 'Communication history,<br>where configured.');
+    html = html.replaceAll('A full audit trail gives your team a clear record of communications. Stay accountable, keep context, and follow every conversation with confidence.', 'Configured communication history can help authorised team members preserve context and follow conversations. Retention and access settings are confirmed during setup.');
+    html = html.replaceAll('DrKing provides two-factor authentication, role-based access, and audit logs. Together, these features help your team manage who has access and maintain visibility into account activity.', 'Available identity, access and activity-recording controls depend on the selected services and deployment. We confirm the applicable controls and responsibilities before rollout.');
+    html = html.replaceAll('DrKing’s security approach includes Data minimisation, Australian deployment review, the Australian Privacy Principles, secure payment handling, and deployment-specific review. Australian deployment review describes preparedness; it is not a certification. Your clinic’s compliance also depends on how you configure and use the platform.', 'DrKing’s approach focuses on data minimisation, the Australian Privacy Principles, access controls and secure payment handling where applicable. The exact controls and responsibilities are confirmed for your deployment; these statements are not certifications.');
+    html = html.replaceAll('Yes. Complete communication records provide a full audit trail, helping your team follow conversations, preserve context, and maintain accountability.', 'Communication history is available where it is part of the configured service. Access, retention and export options are confirmed for your deployment.');
+  }
+  if (file === 'terms.html') {
+    html = html.replace(/<div class="template">[\s\S]*?<\/div>\s*/i, '');
+    const australianTermsParagraph = '<p>These Terms are governed by the laws of Victoria, Australia. Nothing in these Terms excludes, restricts, or modifies any guarantee, right, or remedy that cannot lawfully be excluded under the Australian Consumer Law or other applicable Australian law.</p>';
+    if (!html.includes(australianTermsParagraph)) {
+      html = html.replaceAll(
+        '<p>If a provision is found unenforceable, the remaining provisions continue in effect. A delay in enforcing a right does not waive that right. These Terms and any applicable purchase or feature-specific terms form the agreement regarding your use of the Service.</p>',
+        `<p>If a provision is found unenforceable, the remaining provisions continue in effect. A delay in enforcing a right does not waive that right. These Terms and any applicable purchase or feature-specific terms form the agreement regarding your use of the Service.</p>${australianTermsParagraph}`,
+      );
+    }
+    while (html.includes(australianTermsParagraph + australianTermsParagraph)) html = html.replaceAll(australianTermsParagraph + australianTermsParagraph, australianTermsParagraph);
   }
   if (file === 'roi-calculator.html') {
     html = html.replace(/<script>\s*\/\/ Wire up mobile-nav toggle for roi-calculator[\s\S]*?<\/script>\s*/i, '');
     html = html.replace("new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'", "new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD'");
     html = html.replaceAll('"priceCurrency":"USD"', '"priceCurrency":"AUD"');
     html = html.replaceAll('Patient value means revenue per completed appointment, in USD.', 'Patient value means revenue per completed appointment, in AUD.');
+    html = html.replaceAll('Average patient value in US dollars', 'Average patient value in Australian dollars');
+  }
+  if (file === 'online-reviews.html') {
+    html = html.replace('`$${Math.round(value*.05/1000)}K–$${Math.round(value*.09/1000)}K`', '`A$${Math.round(value*.05/1000)}K–A$${Math.round(value*.09/1000)}K`');
+  }
+  if (file === 'multi-location-chaos.html') {
+    html = html.replace(/A*\$1\.54M/g, () => 'A$1.54M');
+    html = html.replace(
+      /total>=1e6\?'(?:A)?\$'\+\(total\/1e6\)\.toFixed\(2\)\+'M':'(?:A)?\$'\+Math\.round\(total\/1000\)\+'K'/,
+      () => "total>=1e6?'A$'+(total/1e6).toFixed(2)+'M':'A$'+Math.round(total/1000)+'K'",
+    );
+  }
+  if (file === 'patient-reactivation.html') {
+    html = html.replace("const patients=document.getElementById('patients'),format=new Intl.NumberFormat('en-AU');", "const patients=document.getElementById('patients'),format=new Intl.NumberFormat('en-AU'),money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});");
+    html = html.replace("document.getElementById('revenue-total').textContent='$'+format.format(value*.15*200)", "document.getElementById('revenue-total').textContent=money.format(value*.15*200)");
   }
   if (file === 'medical-centres.html') {
     html = html.replace(/<form class="calculator" onsubmit="return false">([\s\S]*?)<\/form>/i, '<div class="calculator">$1</div>');
@@ -167,7 +295,8 @@ for (const file of pages) {
   // leave the page content permanently transparent.
   html = html.replace(/<\/main>/i, `</main>\n${siteFooter}`);
 
-  const assets = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300..600;1,300..600&amp;display=swap" rel="stylesheet">\n<link rel="stylesheet" href="/assets/site-shell.css">\n<script src="/assets/site-shell.js" defer></script>\n';
+  html = html.replace(/<script[^>]+src=["']\/assets\/form-submissions\.js["'][^>]*><\/script>\s*/gi, '');
+  const assets = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300..600;1,300..600&amp;display=swap" rel="stylesheet">\n<link rel="stylesheet" href="/assets/site-shell.css">\n<script src="/assets/site-shell.js" defer></script>\n<script src="/assets/form-submissions.js" defer></script>\n';
   html = html.replace(/<\/head>/i, `${assets}</head>`);
   fs.writeFileSync(full, html);
 }

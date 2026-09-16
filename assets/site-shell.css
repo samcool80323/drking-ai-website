@@ -577,3 +577,28 @@ header.site-header {
     transition: none;
   }
 }
+
+form [role="status"][data-state],
+form [data-drking-status][data-state] {
+  display: block;
+  margin-top: 14px;
+  color: var(--site-teal);
+  font: 500 14px/1.5 var(--site-sans);
+}
+
+form [role="status"][data-state="error"],
+form [data-drking-status][data-state="error"] {
+  color: #9f2f20;
+}
+
+form [role="status"][data-state] a,
+form [data-drking-status][data-state] a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+form :is(button, input[type="submit"])[aria-busy="true"] {
+  cursor: wait;
+  opacity: 0.7;
+}
