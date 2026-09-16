@@ -6,7 +6,7 @@
 - Preserved page-specific content and visual direction; this is not a redesign.
 - Typography is restricted to Geomanist for UI/body copy and Newsreader for headings/editorial copy.
 - No real form submission, message or purchase was performed during testing.
-- A Cloudflare Pages Function and D1 migration are implemented locally, but production deployment remains blocked until an authorised Cloudflare token can create/bind the database and configure the optional CRM webhook.
+- The repaired site is deployed to Cloudflare Pages on `drking.ai`; its Pages Function is bound to the production `drking-enquiries` D1 database. Optional CRM forwarding remains unconfigured because no approved inbound webhook was supplied.
 
 ## Confirmed baseline defects
 
@@ -77,6 +77,12 @@
 - [x] Ran the normaliser twice after the Australian/currency/form changes and repeated structural, script and HTML validation successfully.
 - [x] Inspected the final social image at its original 1200×630 size; verified JPEG format, readable safe-area text and a 183 KB payload.
 - [x] Confirmed all 42 pages contain the shared Open Graph image, dimensions, alt text, large-card directive and X image reference; repeated HTML/structure validation and the idempotence check.
+- [x] Applied the D1 migration to the production `drking-enquiries` database and confirmed the `enquiries` table exists.
+- [x] Deployed commit `fc72cf2` to the production Cloudflare Pages project and verified `drking.ai` and `www.drking.ai` serve the repaired content.
+- [x] Requested every one of the 42 production routes over HTTPS: 42/42 returned HTTP 200.
+- [x] Rechecked the rendered production HTML across all 42 routes for HIPAA, GDPR, USD and the old Fawkner/Jukes Road address: zero residual pages.
+- [x] Exercised `/api/enquiries` with an intentionally invalid, non-recording payload: it returned the expected HTTP 400 JSON response; no real enquiry was submitted.
+- [x] Verified the production social image returns HTTP 200 as a 1200×630 JPEG.
 - [ ] Browser visual, keyboard and console pass at mobile/tablet/desktop widths.
 - [ ] Core Web Vitals trace and before/after browser screenshots.
 
@@ -86,8 +92,7 @@
 - The dedicated Chrome DevTools performance trace integration is unavailable in this task, so no Lighthouse/Core Web Vitals numbers are claimed.
 - The Google Maps and LeadConnector form destinations could not be opened by the safe web checker. Their URLs were preserved and no form was submitted.
 - Because browser execution is blocked, responsive layout, visible focus, keyboard interaction and runtime console behaviour are strongly covered by code/static checks but not claimed as visually verified.
-- The available `CF_API_TOKEN` is rejected by Cloudflare with authentication error 10000, so D1 creation, the `DB` binding, CRM webhook secret and production deployment could not be completed safely. Publishing the form copy before that binding exists would make automatic submissions fall back to email.
-- No GoHighLevel/LeadConnector inbound webhook URL was available. Until one is supplied as the `LEAD_WEBHOOK_URL` secret, enquiries can be retained in D1 but cannot be forwarded automatically into the CRM.
+- Production deployment and D1 persistence are active. No GoHighLevel/LeadConnector inbound webhook URL was available, so enquiries are retained in D1 but are not forwarded automatically into the CRM. Set the Cloudflare secret `LEAD_WEBHOOK_URL` only after an approved receiving endpoint is supplied and tested.
 - Privacy and terms have been adapted for the Australian market, but they remain business legal documents and should be reviewed by Australian counsel before being treated as final legal advice.
 
 ## Preview and repeatable commands
@@ -101,3 +106,5 @@ html-validate '*.html'
 ```
 
 Local preview: `http://127.0.0.1:4174/`
+
+Production: `https://drking.ai/`
