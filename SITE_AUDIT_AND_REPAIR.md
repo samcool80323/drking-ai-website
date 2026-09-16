@@ -25,6 +25,7 @@
 | Moderate | Content fragment defect | Legal copy ended with “or write to .” | Fixed |
 | Moderate | Obsolete live-page fragment CTA | CTA targeted `#button-LZar9xGjf-` on the live homepage | Fixed to `/demo` |
 | Critical regression | Reveal content hidden after shared-footer insertion | Synchronous page scripts enabled `.js` reveal styles, then threw because `#year` had not been parsed yet | Fixed by placing the shared footer before page-end scripts and validating DOM order |
+| Major content inconsistency | Cliniko, Nookal, Power Diary and Dentally were shown as waitlist integrations after being confirmed available | Integrations page hero, waitlist rows, form options and JSON-LD all used the old status | Fixed; promoted to a responsive active section and removed from waitlist surfaces |
 
 ## Implemented repairs
 
@@ -36,6 +37,7 @@
 - Explicit form control types and corrected calculator label/output semantics.
 - Repaired page-body structure on the five malformed page types and malformed JSON-LD on Case Studies and Referral Partner.
 - Added reproducible audit, validation, normalisation and clean-URL preview scripts.
+- Added a dedicated active-integrations section for Cliniko, Nookal, Power Diary and Dentally, with matching hero, metadata, waitlist and structured-data updates.
 
 ## Verification actually performed
 
@@ -54,6 +56,7 @@
 - [x] Confirmed only Geomanist and Newsreader are named font families (plus generic fallbacks).
 - [x] Confirmed the linked ABS 2024–25 source supports the page's 26% GP waiting-time statement.
 - [x] Confirmed the ICO, ABS and Harvard Business School third-party reference pages resolve.
+- [x] Confirmed the four available integrations appear once in the active section, do not remain in the waitlist or waitlist form, and carry `Available now` in JSON-LD.
 - [ ] Browser visual, keyboard and console pass at mobile/tablet/desktop widths.
 - [ ] Core Web Vitals trace and before/after browser screenshots.
 
