@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Block GPTBot (training without citation benefit)
+User-agent: GPTBot
+Disallow: /
+
+# Allow AI search crawlers
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://drking.ai/sitemap.xml
