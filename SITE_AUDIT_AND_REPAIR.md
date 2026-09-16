@@ -26,6 +26,7 @@
 | Moderate | Obsolete live-page fragment CTA | CTA targeted `#button-LZar9xGjf-` on the live homepage | Fixed to `/demo` |
 | Critical regression | Reveal content hidden after shared-footer insertion | Synchronous page scripts enabled `.js` reveal styles, then threw because `#year` had not been parsed yet | Fixed by placing the shared footer before page-end scripts and validating DOM order |
 | Major content inconsistency | Cliniko, Nookal, Power Diary and Dentally were shown as waitlist integrations after being confirmed available | Integrations page hero, waitlist rows, form options and JSON-LD all used the old status | Fixed; promoted to a responsive active section and removed from waitlist surfaces |
+| Major business-detail inconsistency | The previous Fawkner address remained in visible Contact content and four structured-data records | `119 Jukes Rd, Fawkner VIC 3060` appeared on Contact, Home, Dentists and General Practice | Fixed to `1 Elgin Pl, Hawthorn VIC 3122`, including the Google Maps link and accessible label |
 
 ## Implemented repairs
 
@@ -57,6 +58,7 @@
 - [x] Confirmed the linked ABS 2024–25 source supports the page's 26% GP waiting-time statement.
 - [x] Confirmed the ICO, ABS and Harvard Business School third-party reference pages resolve.
 - [x] Confirmed the four available integrations appear once in the active section, do not remain in the waitlist or waitlist form, and carry `Available now` in JSON-LD.
+- [x] Searched the full website source for the old street, suburb and postcode; no stale Fawkner address references remain.
 - [ ] Browser visual, keyboard and console pass at mobile/tablet/desktop widths.
 - [ ] Core Web Vitals trace and before/after browser screenshots.
 
