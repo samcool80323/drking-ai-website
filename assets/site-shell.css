@@ -625,38 +625,75 @@ form :is(button, input[type="submit"])[aria-busy="true"] {
 }
 
 .international-phone-control {
-  display: flex;
-  width: 100%;
-  gap: 8px;
+  display: grid !important;
+  grid-template-columns: 124px minmax(0, 1fr) !important;
+  width: 100% !important;
+  min-height: 52px;
+  gap: 0 !important;
   align-items: stretch;
+  overflow: hidden;
+  border: 1px solid #d7d5cd;
+  border-radius: 11px;
+  background: #fff;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.international-phone-control:focus-within {
+  border-color: var(--site-teal);
+  box-shadow: 0 0 0 3px rgba(13, 92, 92, 0.12);
 }
 
 .international-phone-control .country-code-select {
-  width: 142px;
-  min-width: 142px;
-  max-width: 142px;
-  margin: 0;
+  display: block !important;
+  width: 124px !important;
+  min-width: 124px !important;
+  max-width: 124px !important;
+  height: 100% !important;
+  min-height: 50px !important;
+  margin: 0 !important;
+  padding: 0 28px 0 12px !important;
+  border: 0 !important;
+  border-right: 1px solid #dedcd5 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  background-color: #f2f5f1 !important;
+  color: var(--site-ink) !important;
+  font: 500 15px/1 var(--site-sans) !important;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .international-phone-control input[type="tel"] {
-  width: auto;
-  min-width: 0;
-  flex: 1 1 auto;
-  margin: 0;
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 50px !important;
+  margin: 0 !important;
+  padding: 10px 14px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: #fff !important;
 }
 
 .phone-help {
   display: block;
-  margin-top: 7px;
+  margin-top: 6px;
   color: var(--site-muted);
-  font: 400 13px/1.4 var(--site-sans);
+  font: 400 12px/1.4 var(--site-sans);
 }
 
 @media (max-width: 380px) {
+  .international-phone-control {
+    grid-template-columns: 112px minmax(0, 1fr) !important;
+  }
+
   .international-phone-control .country-code-select {
-    width: 126px;
-    min-width: 126px;
-    max-width: 126px;
+    width: 112px !important;
+    min-width: 112px !important;
+    max-width: 112px !important;
+    padding-left: 10px !important;
   }
 }

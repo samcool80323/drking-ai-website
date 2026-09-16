@@ -50,6 +50,7 @@
   const selectCountry = (select, code) => {
     if (!CALLING_CODES[code]) return;
     select.value = code;
+    select.title = `${countryName(code)} (+${CALLING_CODES[code]})`;
     const input = select.closest('[data-international-phone]')?.querySelector('input[type="tel"]');
     if (input) {
       input.placeholder = code === 'AU' ? '0412 345 678' : 'Phone number';
@@ -74,7 +75,7 @@
     for (const code of countryOrder) {
       const option = document.createElement('option');
       option.value = code;
-      option.textContent = `${flag(code)} +${CALLING_CODES[code]} ${countryName(code)}`;
+      option.textContent = `${flag(code)} +${CALLING_CODES[code]} · ${countryName(code)}`;
       select.append(option);
     }
     input.before(control);
@@ -82,7 +83,7 @@
     const help = document.createElement('small');
     help.id = `${input.id}-phone-help`;
     help.className = 'phone-help';
-    help.textContent = 'Country code is selected automatically. You can change it.';
+    help.textContent = 'Auto-detected. Change the country if needed.';
     control.after(help);
     selectCountry(select, detectedLocaleCountry());
     select.addEventListener('change', () => selectCountry(select, select.value));
