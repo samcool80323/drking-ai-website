@@ -46,10 +46,12 @@ export async function onRequestPost(context) {
   const fields = cleanFields(body.fields);
   const email = Object.entries(fields).find(([key]) => /email/i.test(key))?.[1] || '';
   const name = Object.entries(fields).find(([key]) => /^(?:contact |your )?name$/i.test(key))?.[1] || '';
-  if (!ENQUIRY_TYPES.has(type) || !source.startsWith('/') || !Object.keys(fields).length || !email) {
+  const phone = Object.entries(fields).find(([key]) => /^phone(?: number)?$/i.test(key))?.[1] || '';
+  if (!ENQUIRY_TYPES.has(type) || !source.startsWith('/') || !Object.keys(fields).length || !email || !phone) {
     return respond({ error: 'Required enquiry details are missing.' }, 400);
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return respond({ error: 'Enter a valid email address.' }, 400);
+  if (!/^\+[1-9]\d{6,14}$/.test(phone)) return respond({ error: 'Enter a valid international phone number.' }, 400);
   if (!context.env.DB) return respond({ error: 'The enquiry service is not configured.' }, 503);
 
   const id = crypto.randomUUID();

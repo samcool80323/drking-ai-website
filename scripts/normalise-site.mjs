@@ -69,6 +69,7 @@ for (const file of pages) {
   html = html.replace(/<link[^>]+(?:fonts\.googleapis\.com|fonts\.gstatic\.com|\/assets\/site-shell\.css)[^>]*>\s*/gi, '');
   html = html.replace(/<style>html\{overflow-x:hidden!important\}body\{overflow-x:hidden!important\}<\/style>\s*/gi, '');
   html = html.replace(/<script[^>]+src=["']\/assets\/site-shell\.js["'][^>]*><\/script>\s*/gi, '');
+  html = html.replace(/<script[^>]+src=["']\/assets\/international-phone\.js["'][^>]*><\/script>\s*/gi, '');
   html = html.replace(/<link[^>]+fonts\.googleapis\.com[^>]*>\s*/gi, '');
   html = html.replace(/<link[^>]+fonts\.gstatic\.com[^>]*>\s*/gi, '');
   html = html.replace(/<link[^>]+href=["']\/fonts\/newsreader-[^"']+["'][^>]*>\s*/gi, '');
@@ -158,6 +159,24 @@ for (const file of pages) {
     const type = formTypes[id];
     if (!type || /\bdata-drking-form=/i.test(attributes)) return tag;
     return `<form${attributes} data-drking-form="${type}">`;
+  });
+
+  // Every website enquiry needs a callable phone number. Existing phone fields
+  // are made required; forms without one receive markup matching their layout.
+  html = html.replace(/<form\b[^>]*data-drking-form=["'][^"']+["'][^>]*>[\s\S]*?<\/form>/gi, (form) => {
+    let updated = form
+      .replace(/(<label\b[^>]*for=["'][^"']*phone[^"']*["'][^>]*>[^<]*?)\s*<span>\(optional\)<\/span>/i, '$1 <span>(required)</span>')
+      .replace(/<input\b([^>]*\btype=["']tel["'][^>]*)>/gi, (tag, attributes) => /\brequired\b/i.test(attributes) ? tag : `<input${attributes} required>`);
+    if (/<input\b[^>]*\btype=["']tel["']/i.test(updated)) return updated;
+
+    const idPrefix = /\bid=["']demo-form["']/i.test(updated) ? 'demo-' : '';
+    const input = `<label for="${idPrefix}phone">Phone number</label><input id="${idPrefix}phone" name="phone" type="tel" autocomplete="tel" required maxlength="40">`;
+    const field = updated.includes('class="form-field"')
+      ? `<div class="form-field">${input}</div>`
+      : updated.includes('class="field"')
+        ? `<div class="field">${input}</div>`
+        : input;
+    return updated.replace(/<button\b([^>]*\btype=["']submit["'][^>]*)>/i, `${field}<button$1>`);
   });
 
   if (file === 'integrations.html') {
@@ -301,7 +320,7 @@ for (const file of pages) {
   html = html.replace(/<script[^>]+src=["']\/assets\/form-submissions\.js["'][^>]*><\/script>\s*/gi, '');
   html = html.replace(/<meta\s+(?:property|name)=["'](?:og:(?:site_name|locale|image(?::(?:secure_url|type|width|height|alt))?)|twitter:(?:card|image|image:alt))["'][^>]*>\s*/gi, '');
   const socialImage = '<meta property="og:site_name" content="DrKing">\n<meta property="og:locale" content="en_AU">\n<meta property="og:image" content="https://drking.ai/assets/drking-social-share.jpg?v=ae223eb8">\n<meta property="og:image:secure_url" content="https://drking.ai/assets/drking-social-share.jpg?v=ae223eb8">\n<meta property="og:image:type" content="image/jpeg">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n<meta property="og:image:alt" content="DrKing AI communication for Australian healthcare practices — a clinician welcoming a patient with calls, messages and appointment booking.">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:image" content="https://drking.ai/assets/drking-social-share.jpg?v=ae223eb8">\n<meta name="twitter:image:alt" content="DrKing AI communication for Australian healthcare practices — a clinician welcoming a patient with calls, messages and appointment booking.">\n';
-  const assets = `${socialImage}<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300..600;1,300..600&amp;display=swap" rel="stylesheet">\n<link rel="stylesheet" href="/assets/site-shell.css">\n<script src="/assets/site-shell.js" defer></script>\n<script src="/assets/form-submissions.js" defer></script>\n`;
+  const assets = `${socialImage}<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300..600;1,300..600&amp;display=swap" rel="stylesheet">\n<link rel="stylesheet" href="/assets/site-shell.css">\n<script src="/assets/site-shell.js" defer></script>\n<script src="/assets/international-phone.js" defer></script>\n<script src="/assets/form-submissions.js" defer></script>\n`;
   html = html.replace(/<\/head>/i, `${assets}</head>`);
   fs.writeFileSync(full, html);
 }

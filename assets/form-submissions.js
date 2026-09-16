@@ -13,6 +13,12 @@
       if (entries[name]) entries[name] = `${entries[name]}, ${value}`;
       else entries[name] = value;
     }
+    form.querySelectorAll('input[type="tel"][name]').forEach((input) => {
+      const control = input.closest('[data-international-phone]');
+      const country = control?.querySelector('select')?.value || 'AU';
+      const normalised = window.DrKingPhone?.normalisePhone(input.value, country);
+      if (normalised) entries[input.name] = normalised;
+    });
     return entries;
   };
 

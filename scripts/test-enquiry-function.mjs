@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { onRequestPost } from '../functions/api/enquiries.js';
+import { onRequestGet as onCountryRequest } from '../functions/api/country.js';
 
 const records = [];
 const DB = {
@@ -28,7 +29,7 @@ const valid = await onRequestPost({
     type: 'demo-request',
     source: '/demo',
     pageTitle: 'Book a demo',
-    fields: { name: 'Test Person', email: 'test@example.com', clinic: 'Test Clinic' },
+    fields: { name: 'Test Person', email: 'test@example.com', phone: '+61412345678', clinic: 'Test Clinic' },
   }),
   env: { DB },
   waitUntil() {},
@@ -39,7 +40,7 @@ assert.equal(records[0].values[2], 'demo-request');
 assert.equal(records[0].values[6], 'test@example.com');
 
 const badEmail = await onRequestPost({
-  request: request({ type: 'demo-request', source: '/demo', fields: { email: 'not-an-email' } }),
+  request: request({ type: 'demo-request', source: '/demo', fields: { email: 'not-an-email', phone: '+61412345678' } }),
   env: { DB },
   waitUntil() {},
 });
@@ -47,14 +48,14 @@ assert.equal(badEmail.status, 400);
 assert.equal(records.length, 1);
 
 const wrongOrigin = await onRequestPost({
-  request: request({ type: 'demo-request', source: '/demo', fields: { name: 'Test', email: 'test@example.com' } }, { Origin: 'https://example.com' }),
+  request: request({ type: 'demo-request', source: '/demo', fields: { name: 'Test', email: 'test@example.com', phone: '+61412345678' } }, { Origin: 'https://example.com' }),
   env: { DB },
   waitUntil() {},
 });
 assert.equal(wrongOrigin.status, 403);
 
 const missingBinding = await onRequestPost({
-  request: request({ type: 'demo-request', source: '/demo', fields: { name: 'Test', email: 'test@example.com' } }),
+  request: request({ type: 'demo-request', source: '/demo', fields: { name: 'Test', email: 'test@example.com', phone: '+61412345678' } }),
   env: {},
   waitUntil() {},
 });
@@ -67,5 +68,20 @@ const unknownType = await onRequestPost({
 });
 assert.equal(unknownType.status, 400);
 assert.equal(records.length, 1);
+
+const invalidPhone = await onRequestPost({
+  request: request({ type: 'demo-request', source: '/demo', fields: { name: 'Test', email: 'test@example.com', phone: '0412 345 678' } }),
+  env: { DB },
+  waitUntil() {},
+});
+assert.equal(invalidPhone.status, 400);
+assert.equal(records.length, 1);
+
+const detectedCountry = await onCountryRequest({ request: { cf: { country: 'NZ' } } });
+assert.equal(detectedCountry.status, 200);
+assert.deepEqual(await detectedCountry.json(), { country: 'NZ' });
+
+const fallbackCountry = await onCountryRequest({ request: {} });
+assert.deepEqual(await fallbackCountry.json(), { country: 'AU' });
 
 console.log('Enquiry function tests passed.');
