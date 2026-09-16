@@ -32,6 +32,7 @@
 | Major | Australian-market inconsistencies | All pages declared generic English; one calculator still labelled values as US dollars and three used ambiguous compact dollar output | Fixed: all 42 pages use `en-AU`; calculators use AUD formatters or explicit `A$`; shared footer states the currency convention |
 | Major | Privacy and terms pages were not ready for an Australian production site | UK regulator link, EU-style legal-basis language and visible template warnings | Fixed locally with Australian privacy rights/OAIC complaint route, overseas-disclosure wording, Victorian governing law and Australian Consumer Law preservation; legal review remains recommended |
 | Major | Shared links had no dependable visual preview | Pages had titles and descriptions but no universal Open Graph image; several requested only a small X/Twitter summary card | Fixed locally with a branded 1200×630 JPEG and complete Open Graph/X image metadata across all 42 pages |
+| Critical regression | About page body and stylesheet did not match | `/about` contained the homepage's entire main content while retaining About-specific CSS, leaving the live layout visibly broken | Fixed: restored a dedicated About hero, story, principles, FAQ and CTA using the existing page design system |
 
 ## Implemented repairs
 
@@ -83,6 +84,7 @@
 - [x] Rechecked the rendered production HTML across all 42 routes for HIPAA, GDPR, USD and the old Fawkner/Jukes Road address: zero residual pages.
 - [x] Exercised `/api/enquiries` with an intentionally invalid, non-recording payload: it returned the expected HTTP 400 JSON response; no real enquiry was submitted.
 - [x] Verified the production social image returns HTTP 200 as a 1200×630 JPEG.
+- [x] Confirmed the repaired About page has one main landmark, page-specific content, matching styled sections, valid internal links and no duplicate IDs; repeated the 42-page validator and full HTML ruleset.
 - [ ] Browser visual, keyboard and console pass at mobile/tablet/desktop widths.
 - [ ] Core Web Vitals trace and before/after browser screenshots.
 
