@@ -45,6 +45,18 @@ body.site-menu-open {
   overflow: hidden;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 button,
 input,
 select,
@@ -302,6 +314,15 @@ header.site-header {
 .site-footer-bottom {
   width: min(1180px, 100%);
   margin-inline: auto;
+}
+
+.site-footer-disclaimer {
+  width: min(1180px, calc(100% - (var(--site-gutter) * 2)));
+  margin: 0 auto;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--site-line);
+  color: var(--site-muted);
+  font: 400 12px/1.6 var(--site-sans);
 }
 
 .site-footer-inner {

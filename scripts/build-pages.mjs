@@ -4,9 +4,11 @@ import path from 'node:path';
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.join(root, 'dist');
 const rootAssets = [
+  '_headers',
   '_redirects',
   'drking-logo.svg',
   'indexnow-key.txt',
+  'llms.txt',
   'robots.txt',
   'sitemap.xml',
 ];

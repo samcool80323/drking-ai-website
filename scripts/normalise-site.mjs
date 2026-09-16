@@ -13,7 +13,7 @@ const removableStyleMarkers = [
 ];
 
 const siteHeader = `<header class="site-header">
-<a class="brand" href="/" aria-label="DrKing home"><img class="brand-logo" src="/drking-logo.svg" alt="DrKing"></a>
+<a class="brand" href="/" aria-label="DrKing home"><img class="brand-logo" src="/drking-logo.svg" alt="DrKing" width="2020" height="616"></a>
 <nav class="nav-links navlinks" id="site-desktop-nav" aria-label="Main navigation">
 <div class="mega-menu"><button type="button" class="mega-toggle" aria-haspopup="true">Industries</button><div class="mega-panel">
 <a class="mega-item" href="/dentists"><span class="mega-icon" aria-hidden="true">+</span><span class="mega-text"><span class="mega-title">Dental Clinics</span><span class="mega-desc">Capture every call, book more chairs</span></span></a>
@@ -48,13 +48,15 @@ const siteHeader = `<header class="site-header">
 
 const siteFooter = `<footer class="site-footer">
 <div class="site-footer-inner">
-<div class="site-footer-brand"><a href="/" aria-label="DrKing home"><img src="/drking-logo.svg" alt="DrKing"></a><p>Practical AI communication tools for Australian healthcare practices.</p></div>
+<div class="site-footer-brand"><a href="/" aria-label="DrKing home"><img src="/drking-logo.svg" alt="DrKing" width="2020" height="616"></a><p>Practical AI communication tools for Australian healthcare practices.</p></div>
 <nav class="site-footer-nav" aria-label="Footer navigation">
 <div><h2>Industries</h2><a href="/dentists">Dental Clinics</a><a href="/general-practice">General Practice</a><a href="/specialists">Specialists</a><a href="/allied-health">Allied Health</a></div>
-<div><h2>Solutions</h2><a href="/ai-voice-receptionist">AI Voice Receptionist</a><a href="/missed-call-recovery">Missed Call Recovery</a><a href="/appointment-reminders">Reminders</a><a href="/analytics">Analytics</a></div>
-<div><h2>Company</h2><a href="/about">About</a><a href="/integrations">Integrations</a><a href="/contact">Contact</a><a href="/demo">Book a Demo</a></div>
+<div><h2>Solutions</h2><a href="/ai-voice-receptionist">AI Voice Receptionist</a><a href="/missed-call-recovery">Missed Call Recovery</a><a href="/online-booking">Online Booking</a><a href="/payment-collection">Payment Collection</a><a href="/patient-reactivation">Patient Reactivation</a><a href="/appointment-reminders">Reminders</a><a href="/analytics">Analytics</a></div>
+<div><h2>Resources</h2><a href="/case-studies">Case Studies</a><a href="/roi-calculator">ROI Calculator</a><a href="/vs-receptionist">Compare Reception</a><a href="/vs-practice-management">Compare Practice Software</a><a href="/vs-call-answering">Compare Call Answering</a><a href="/vs-chatbots">Compare Chatbots</a></div>
+<div><h2>Company</h2><a href="/about">About</a><a href="/integrations">Integrations</a><a href="/security">Security</a><a href="/referral-partner">Referral Partners</a><a href="/contact">Contact</a><a href="/demo">Book a Demo</a></div>
 </nav>
 </div>
+<p class="site-footer-disclaimer">Performance percentages and financial examples are illustrative unless a cited source or verified case study is identified. Results vary by practice.</p>
 <div class="site-footer-bottom"><p>© <span id="year">2026</span> DrKing. All rights reserved. All dollar amounts are AUD unless stated otherwise.</p><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
 </footer>`;
 
@@ -94,7 +96,8 @@ for (const file of pages) {
 
   html = html.replaceAll('/book-demo', '/demo');
   html = html.replaceAll('/book-a-demo', '/demo');
-  html = html.replaceAll('https://drking.ai/demo', '/demo');
+  html = html.replaceAll('href="https://drking.ai/demo"', 'href="/demo"');
+  html = html.replaceAll("href='https://drking.ai/demo'", "href='/demo'");
   html = html.replaceAll('https://drking.ai/#button-LZar9xGjf-', '/demo');
   html = html.replaceAll('/multi-location-management', '/multi-location-chaos');
   html = html.replaceAll('/#book-demo', '/demo');
