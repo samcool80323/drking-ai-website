@@ -49,7 +49,7 @@
 - Added a Cloudflare Pages Function with same-origin checks, payload limits, a honeypot, field limits, D1 persistence, structured logs and an optional secret `LEAD_WEBHOOK_URL` handoff to the configured CRM.
 - Added the D1 `enquiries` migration and repeatable endpoint tests.
 - Updated privacy, security and terms content for the primary Australian market and removed HIPAA, GDPR, PCI-compliance and ISO-certification claims that were not substantiated for this deployment.
-- Added a 1200×630, 189 KB social card featuring the official DrKing logo and a clearly medical, patient-facing clinic scene, plus universal Open Graph image, secure URL, type, dimensions, descriptive alt text, large-card and X image metadata on every page.
+- Added a 1200×630, 184 KB social card featuring a proportionate official DrKing logo and a clearly medical, patient-facing clinic scene, plus universal Open Graph image, secure URL, type, dimensions, descriptive alt text, large-card and X image metadata on every page.
 
 ## Verification actually performed
 
@@ -76,7 +76,7 @@
 - [x] Confirmed all nine HTML forms are connected to the shared submission controller; no unmanaged HTML form remains.
 - [x] Confirmed all 42 documents declare `en-AU`; no HIPAA, GDPR, USD, US-dollar, UK ICO or old-address references remain.
 - [x] Ran the normaliser twice after the Australian/currency/form changes and repeated structural, script and HTML validation successfully.
-- [x] Inspected the final social image at its original 1200×630 size; verified the official DrKing logo treatment, medical-clinic concept, readable safe-area text, JPEG format and a 189 KB payload.
+- [x] Inspected the final social image at its original 1200×630 size; verified the reduced official DrKing logo treatment, medical-clinic concept, readable safe-area text, JPEG format and a 184 KB payload.
 - [x] Confirmed all 42 pages contain the shared Open Graph image, dimensions, alt text, large-card directive and X image reference; repeated HTML/structure validation and the idempotence check.
 - [x] Applied the D1 migration to the production `drking-enquiries` database and confirmed the `enquiries` table exists.
 - [x] Deployed commit `fc72cf2` to the production Cloudflare Pages project and verified `drking.ai` and `www.drking.ai` serve the repaired content.
