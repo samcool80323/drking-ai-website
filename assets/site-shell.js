@@ -17,11 +17,11 @@
   let lastFocused = null;
 
   header.querySelector('.brand')?.setAttribute('href', '/');
-  document.querySelectorAll('.mega-toggle').forEach((button) => {
-    button.setAttribute('aria-expanded', 'false');
-    const panel = button.nextElementSibling;
-    if (panel && !panel.id) panel.id = `mega-${button.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
-    if (panel?.id) button.setAttribute('aria-controls', panel.id);
+  document.querySelectorAll('.mega-toggle').forEach((trigger) => {
+    trigger.setAttribute('aria-expanded', 'false');
+    const panel = trigger.nextElementSibling;
+    if (panel && !panel.id) panel.id = `mega-${trigger.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+    if (panel?.id) trigger.setAttribute('aria-controls', panel.id);
   });
 
   const normalisePath = (value) => {
@@ -51,7 +51,7 @@
   };
 
   const closeMegaMenus = (except = null) => {
-    header.querySelectorAll('.mega-menu.is-open').forEach((menu) => {
+    header.querySelectorAll('.mega-menu').forEach((menu) => {
       if (menu === except) return;
       menu.classList.remove('is-open');
       menu.querySelector('.mega-toggle')?.setAttribute('aria-expanded', 'false');
@@ -68,7 +68,7 @@
     if (event.target.closest('a')) setMenu(false);
   });
 
-  header.querySelectorAll('.mega-toggle').forEach((button) => {
+  header.querySelectorAll('button.mega-toggle').forEach((button) => {
     button.addEventListener('click', (event) => {
       event.preventDefault();
       const menu = button.closest('.mega-menu');
@@ -79,6 +79,24 @@
     });
   });
 
+  header.querySelectorAll('.mega-menu').forEach((menu) => {
+    const trigger = menu.querySelector('.mega-toggle');
+    menu.addEventListener('focusin', () => {
+      menu.classList.remove('is-closed');
+      closeMegaMenus(menu);
+      menu.classList.add('is-open');
+      trigger?.setAttribute('aria-expanded', 'true');
+    });
+    menu.addEventListener('focusout', () => {
+      requestAnimationFrame(() => {
+        if (menu.contains(document.activeElement)) return;
+        menu.classList.remove('is-open');
+        trigger?.setAttribute('aria-expanded', 'false');
+      });
+    });
+    menu.addEventListener('mouseleave', () => menu.classList.remove('is-closed'));
+  });
+
   document.addEventListener('click', (event) => {
     if (!header.contains(event.target)) closeMegaMenus();
     if (!header.contains(event.target) && !mobileNav.contains(event.target)) setMenu(false);
@@ -87,6 +105,11 @@
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       const wasOpen = mobileNav.classList.contains('open');
+      const activeMegaMenu = document.activeElement?.closest?.('.mega-menu');
+      if (activeMegaMenu) {
+        activeMegaMenu.querySelector('.mega-toggle')?.focus();
+        activeMegaMenu.classList.add('is-closed');
+      }
       closeMegaMenus();
       setMenu(false, { restoreFocus: wasOpen });
       return;

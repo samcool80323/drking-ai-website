@@ -13,7 +13,6 @@ const removableStyleMarkers = [
 ];
 
 const navIcons = {
-  industries: '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"></rect><rect x="14" y="4" width="6" height="6" rx="1"></rect><rect x="4" y="14" width="6" height="6" rx="1"></rect><rect x="14" y="14" width="6" height="6" rx="1"></rect></svg>',
   dental: '<svg viewBox="0 0 24 24"><path d="M12 5.1c-1.5 0-2.8-1.1-4.4-1.1C5.2 4 4 5.7 4 8c0 3.1 1.8 4.8 2.5 8.1.5 2.3 1.2 3.9 2.4 3.9 1.4 0 1.4-4.7 3.1-4.7s1.7 4.7 3.1 4.7c1.2 0 1.9-1.6 2.4-3.9C18.2 12.8 20 11.1 20 8c0-2.3-1.2-4-3.6-4-1.6 0-2.9 1.1-4.4 1.1Z"></path></svg>',
   generalPractice: '<svg viewBox="0 0 24 24"><path d="M9 4h6v5h5v6h-5v5H9v-5H4V9h5V4Z"></path></svg>',
   specialists: '<svg viewBox="0 0 24 24"><path d="M6 3v5a4 4 0 0 0 8 0V3"></path><path d="M4 3h4M12 3h4M10 16v1a4 4 0 0 0 8 0v-2"></path><circle cx="18" cy="12" r="3"></circle></svg>',
@@ -22,7 +21,6 @@ const navIcons = {
   cosmeticClinics: '<svg viewBox="0 0 24 24"><path d="m12 3 1.4 4.1L17.5 8.5l-4.1 1.4L12 14l-1.4-4.1-4.1-1.4 4.1-1.4L12 3Z"></path><path d="m18.5 14 .8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2ZM5 14l.6 1.7 1.7.6-1.7.6L5 18.5l-.6-1.6-1.7-.6 1.7-.6L5 14Z"></path></svg>',
   veterinary: '<svg viewBox="0 0 24 24"><ellipse cx="7" cy="7" rx="2" ry="3"></ellipse><ellipse cx="17" cy="7" rx="2" ry="3"></ellipse><ellipse cx="4.5" cy="12" rx="1.8" ry="2.5"></ellipse><ellipse cx="19.5" cy="12" rx="1.8" ry="2.5"></ellipse><path d="M12 11c-3.2 0-6 3.4-6 6.1 0 2 1.5 3 3.2 3 1.1 0 1.8-.6 2.8-.6s1.7.6 2.8.6c1.7 0 3.2-1 3.2-3 0-2.7-2.8-6.1-6-6.1Z"></path></svg>',
   agedCare: '<svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"></circle><path d="M6 21v-3a6 6 0 0 1 12 0v3M3 13c1.5 0 2.5.7 3.3 1.7M21 13c-1.5 0-2.5.7-3.3 1.7"></path></svg>',
-  solutions: '<svg viewBox="0 0 24 24"><path d="M5 4v6M5 14v6M12 4v2M12 10v10M19 4v10M19 18v2"></path><path d="M2 10h6M9 6h6M16 14h6"></path></svg>',
   voice: '<svg viewBox="0 0 24 24"><path d="M7.2 4.7 9.5 8 7.8 9.7a14.8 14.8 0 0 0 6.5 6.5l1.7-1.7 3.3 2.3c.5.4.7 1 .5 1.6-.4 1.2-1.5 2-2.8 2C9.6 20.4 3.6 14.4 3.6 7c0-1.3.8-2.4 2-2.8.6-.2 1.2 0 1.6.5Z"></path><path d="M15 5a5 5 0 0 1 4 4M15 9a1 1 0 0 1 1 1"></path></svg>',
   chat: '<svg viewBox="0 0 24 24"><path d="M4 5h16v12H9l-5 4V5Z"></path><path d="M8 9h8M8 13h5"></path></svg>',
   missedCall: '<svg viewBox="0 0 24 24"><path d="M7.2 4.7 9.5 8 7.8 9.7a14.8 14.8 0 0 0 6.5 6.5l1.7-1.7 3.3 2.3c.5.4.7 1 .5 1.6-.4 1.2-1.5 2-2.8 2C9.6 20.4 3.6 14.4 3.6 7c0-1.3.8-2.4 2-2.8.6-.2 1.2 0 1.6.5Z"></path><path d="m14 4 6 6M20 4l-6 6"></path></svg>',
@@ -36,8 +34,7 @@ const navIcons = {
 const siteHeader = `<header class="site-header">
 <a class="brand" href="/" aria-label="DrKing home"><img class="brand-logo" src="/drking-logo.svg" alt="DrKing" width="2020" height="616"></a>
 <nav class="nav-links navlinks" id="site-desktop-nav" aria-label="Main navigation">
-<div class="mega-menu"><button type="button" class="mega-toggle" aria-haspopup="true">Industries</button><div class="mega-panel">
-<a class="mega-item mega-index" href="/industries"><span class="mega-icon" aria-hidden="true">${navIcons.industries}</span><span class="mega-text"><span class="mega-title">View all industries</span><span class="mega-desc">Find workflows for your type of practice</span></span></a>
+<div class="mega-menu"><a class="mega-toggle" href="/industries" aria-haspopup="true">Industries</a><div class="mega-panel">
 <a class="mega-item" href="/dentists"><span class="mega-icon" aria-hidden="true">${navIcons.dental}</span><span class="mega-text"><span class="mega-title">Dental Clinics</span><span class="mega-desc">Capture every call, book more chairs</span></span></a>
 <a class="mega-item" href="/general-practice"><span class="mega-icon" aria-hidden="true">${navIcons.generalPractice}</span><span class="mega-text"><span class="mega-title">General Practice</span><span class="mega-desc">Reduce wait times, lighten reception</span></span></a>
 <a class="mega-item" href="/specialists"><span class="mega-icon" aria-hidden="true">${navIcons.specialists}</span><span class="mega-text"><span class="mega-title">Specialists</span><span class="mega-desc">Convert more referrals into patients</span></span></a>
@@ -47,8 +44,7 @@ const siteHeader = `<header class="site-header">
 <a class="mega-item" href="/veterinary"><span class="mega-icon" aria-hidden="true">${navIcons.veterinary}</span><span class="mega-text"><span class="mega-title">Veterinary</span><span class="mega-desc">After-hours enquiry support</span></span></a>
 <a class="mega-item" href="/aged-care"><span class="mega-icon" aria-hidden="true">${navIcons.agedCare}</span><span class="mega-text"><span class="mega-title">Aged Care</span><span class="mega-desc">Clear family communication</span></span></a>
 </div></div>
-<div class="mega-menu"><button type="button" class="mega-toggle" aria-haspopup="true">Solutions</button><div class="mega-panel">
-<a class="mega-item mega-index" href="/solutions"><span class="mega-icon" aria-hidden="true">${navIcons.solutions}</span><span class="mega-text"><span class="mega-title">View all solutions</span><span class="mega-desc">Explore communication and growth tools</span></span></a>
+<div class="mega-menu"><a class="mega-toggle" href="/solutions" aria-haspopup="true">Solutions</a><div class="mega-panel">
 <a class="mega-item" href="/ai-voice-receptionist"><span class="mega-icon" aria-hidden="true">${navIcons.voice}</span><span class="mega-text"><span class="mega-title">AI Voice Receptionist</span><span class="mega-desc">Answer calls around the clock</span></span></a>
 <a class="mega-item" href="/ai-chat"><span class="mega-icon" aria-hidden="true">${navIcons.chat}</span><span class="mega-text"><span class="mega-title">AI Web Chat</span><span class="mega-desc">Help website visitors take action</span></span></a>
 <a class="mega-item" href="/missed-call-recovery"><span class="mega-icon" aria-hidden="true">${navIcons.missedCall}</span><span class="mega-text"><span class="mega-title">Missed Call Recovery</span><span class="mega-desc">Follow up unanswered calls</span></span></a>
@@ -63,8 +59,8 @@ const siteHeader = `<header class="site-header">
 <div class="header-right"><a class="button teal" href="/demo">Let’s talk <span aria-hidden="true">↗</span></a><button type="button" class="menu-toggle menu-button mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button></div>
 </header>
 <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" inert>
-<div class="mobile-group"><div class="mobile-group-label">Industries</div><a class="mobile-index-link" href="/industries">View all industries <span aria-hidden="true">→</span></a><a href="/dentists">Dental Clinics</a><a href="/general-practice">General Practice</a><a href="/specialists">Specialists</a><a href="/allied-health">Allied Health</a><a href="/medical-centres">Medical Centres</a><a href="/cosmetic-clinics">Cosmetic Clinics</a><a href="/veterinary">Veterinary</a><a href="/aged-care">Aged Care</a></div>
-<div class="mobile-group"><div class="mobile-group-label">Solutions</div><a class="mobile-index-link" href="/solutions">View all solutions <span aria-hidden="true">→</span></a><a href="/ai-voice-receptionist">AI Voice Receptionist</a><a href="/ai-chat">AI Web Chat</a><a href="/missed-call-recovery">Missed Call Recovery</a><a href="/text-to-pay">Text-to-Pay</a><a href="/review-generator">Reviews</a><a href="/appointment-reminders">Reminders</a><a href="/lead-management">Lead CRM</a><a href="/analytics">Analytics</a></div>
+<div class="mobile-group"><a class="mobile-group-label" href="/industries">Industries <span aria-hidden="true">→</span></a><a href="/dentists">Dental Clinics</a><a href="/general-practice">General Practice</a><a href="/specialists">Specialists</a><a href="/allied-health">Allied Health</a><a href="/medical-centres">Medical Centres</a><a href="/cosmetic-clinics">Cosmetic Clinics</a><a href="/veterinary">Veterinary</a><a href="/aged-care">Aged Care</a></div>
+<div class="mobile-group"><a class="mobile-group-label" href="/solutions">Solutions <span aria-hidden="true">→</span></a><a href="/ai-voice-receptionist">AI Voice Receptionist</a><a href="/ai-chat">AI Web Chat</a><a href="/missed-call-recovery">Missed Call Recovery</a><a href="/text-to-pay">Text-to-Pay</a><a href="/review-generator">Reviews</a><a href="/appointment-reminders">Reminders</a><a href="/lead-management">Lead CRM</a><a href="/analytics">Analytics</a></div>
 <div class="mobile-group"><div class="mobile-group-label">Company</div><a href="/integrations">Integrations</a><a href="/about">About</a><a href="/contact">Contact</a></div>
 <a href="/demo" class="mobile-cta">Book a Free Demo</a>
 </nav>`;

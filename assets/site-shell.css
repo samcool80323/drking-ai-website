@@ -45,6 +45,25 @@ body.site-menu-open {
   overflow: hidden;
 }
 
+.skip {
+  position: fixed;
+  z-index: 2000;
+  top: 8px;
+  left: 8px;
+  padding: 10px 14px;
+  transform: translateY(calc(-100% - 16px));
+  border-radius: 8px;
+  background: var(--site-teal);
+  color: #fff;
+  font: 600 14px/1.3 var(--site-sans);
+  text-decoration: none;
+}
+
+.skip:focus,
+.skip:focus-visible {
+  transform: none;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -179,7 +198,7 @@ header.site-header {
 }
 
 .site-header .mega-toggle[aria-expanded="true"]::after,
-.site-header .mega-menu:focus-within .mega-toggle::after {
+.site-header .mega-menu:not(.is-closed):hover .mega-toggle::after {
   transform: translateY(3px) rotate(225deg);
 }
 
@@ -201,9 +220,12 @@ header.site-header {
 }
 
 .site-header .mega-menu:hover > .mega-panel,
-.site-header .mega-menu:focus-within > .mega-panel,
 .site-header .mega-menu.is-open > .mega-panel {
   display: grid;
+}
+
+.site-header .mega-menu.is-closed:hover > .mega-panel {
+  display: none;
 }
 
 .site-header .mega-item {
@@ -220,19 +242,6 @@ header.site-header {
 .site-header .mega-item:hover,
 .site-header .mega-item:focus-visible {
   background: #e8f0e8;
-}
-
-.site-header .mega-index {
-  grid-column: 1 / -1;
-  min-height: 58px;
-  margin-bottom: 4px;
-  border: 1px solid rgba(13, 92, 92, 0.12);
-  background: #f5f8f4;
-}
-
-.site-header .mega-index .mega-icon {
-  background: var(--site-teal);
-  color: #fff;
 }
 
 .site-header .mega-icon {
@@ -547,10 +556,15 @@ header.site-header {
   }
 
   .mobile-nav .mobile-group-label {
+    display: flex;
+    min-height: 42px;
     padding: 8px 0 4px;
+    align-items: center;
+    justify-content: space-between;
     color: var(--site-muted);
     font: 600 10px/1.4 var(--site-sans);
     letter-spacing: 0.14em;
+    text-decoration: none;
     text-transform: uppercase;
   }
 
@@ -566,13 +580,6 @@ header.site-header {
   }
 
   .mobile-nav a[aria-current="page"] {
-    color: var(--site-teal);
-    font-weight: 600;
-  }
-
-  .mobile-nav .mobile-index-link {
-    min-height: 42px;
-    justify-content: space-between;
     color: var(--site-teal);
     font-weight: 600;
   }
