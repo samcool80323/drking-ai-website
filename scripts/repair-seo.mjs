@@ -110,6 +110,8 @@ const organisation = {
 
 const orgReference = () => ({ '@id': organisation['@id'] });
 const pageTypes = new Set(['WebPage', 'AboutPage', 'ContactPage', 'CollectionPage']);
+const industryPages = new Set(['dentists.html', 'general-practice.html', 'specialists.html', 'allied-health.html', 'medical-centres.html', 'cosmetic-clinics.html', 'veterinary.html', 'aged-care.html']);
+const solutionPages = new Set(['ai-voice-receptionist.html', 'ai-chat.html', 'missed-call-recovery.html', 'online-booking.html', 'appointment-reminders.html', 'patient-reactivation.html', 'lead-management.html', 'payment-collection.html', 'text-to-pay.html', 'review-generator.html', 'online-reviews.html', 'analytics.html', 'after-hours.html', 'missed-calls.html', 'patient-no-shows.html', 'slow-follow-up.html', 'admin-overhead.html', 'multi-location-chaos.html']);
 
 function hasType(node, type) {
   const values = Array.isArray(node?.['@type']) ? node['@type'] : [node?.['@type']];
@@ -158,6 +160,18 @@ function normaliseNode(node, file) {
     result.publisher = orgReference();
   }
   if (hasType(result, 'Service')) result.provider = orgReference();
+  if (hasType(result, 'BreadcrumbList') && (industryPages.has(file) || solutionPages.has(file))) {
+    const existing = Array.isArray(result.itemListElement) ? result.itemListElement : [];
+    const leaf = existing.at(-1) || {};
+    const hub = industryPages.has(file)
+      ? { name: 'Industries', item: 'https://drking.ai/industries' }
+      : { name: 'Solutions', item: 'https://drking.ai/solutions' };
+    result.itemListElement = [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://drking.ai/' },
+      { '@type': 'ListItem', position: 2, ...hub },
+      { ...leaf, '@type': 'ListItem', position: 3 },
+    ];
+  }
   if ([...pageTypes].some((type) => hasType(result, type))) {
     result.inLanguage = 'en-AU';
     result.publisher = orgReference();

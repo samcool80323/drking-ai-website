@@ -8,6 +8,7 @@ const titles = new Map();
 const descriptions = new Map();
 const incoming = Object.fromEntries(pages.map((file) => [file, 0]));
 const pageTypes = new Set(['WebPage', 'AboutPage', 'ContactPage', 'CollectionPage']);
+const requiredHubs = ['https://drking.ai/industries', 'https://drking.ai/solutions'];
 
 function hasType(node, type) {
   const values = Array.isArray(node?.['@type']) ? node['@type'] : [node?.['@type']];
@@ -82,6 +83,7 @@ for (const [file, count] of Object.entries(incoming)) if (file !== 'index.html' 
 
 const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+for (const hub of requiredHubs) if (!sitemapUrls.includes(hub)) problems.push(`sitemap: missing hub ${hub}`);
 if (sitemapUrls.length !== pages.length) problems.push(`sitemap has ${sitemapUrls.length} URLs for ${pages.length} indexable pages`);
 for (const file of pages) {
   const expected = file === 'index.html' ? 'https://drking.ai/' : `https://drking.ai/${file.slice(0, -5)}`;
@@ -99,7 +101,7 @@ const notFound = fs.readFileSync(path.join(root, '404.html'), 'utf8');
 if (!/<meta\s+name=["']robots["']\s+content=["']noindex,follow["']/i.test(notFound)) problems.push('404.html: missing noindex,follow');
 
 const llms = fs.readFileSync(path.join(root, 'llms.txt'), 'utf8');
-if (!llms.includes('https://drking.ai/about') || !llms.includes('Citation and interpretation notes')) problems.push('llms.txt: missing canonical orientation content');
+if (!llms.includes('https://drking.ai/about') || !requiredHubs.every((hub) => llms.includes(hub)) || !llms.includes('Citation and interpretation notes')) problems.push('llms.txt: missing canonical orientation content');
 
 const result = {
   indexablePages: pages.length,

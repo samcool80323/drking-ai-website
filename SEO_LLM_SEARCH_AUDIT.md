@@ -1,9 +1,16 @@
 # DrKing SEO and LLM Search Audit
 
+## Information architecture update — 17 September 2026
+
+- Added indexable `/industries` and `/solutions` collection pages with descriptive tiles and CollectionPage, ItemList and BreadcrumbList structured data.
+- Added both hubs to desktop navigation, mobile navigation, the shared footer, XML sitemap and `llms.txt`.
+- Nested industry and solution detail-page breadcrumbs beneath the relevant hub so crawlers can understand the content hierarchy.
+- Linked the two hubs to each other and linked the solutions hub to high-intent challenge pages, strengthening crawl paths without changing existing page intent.
+
 **Audit date:** 17 September 2026  
 **Website:** https://drking.ai  
-**Scope:** all 42 HTML pages in the repository, live response behaviour, crawl/index controls, on-page SEO, structured data, internal linking, content trust, and agent/LLM discovery.  
-**Status:** local repair implemented and verified on the isolated branch; production deployment is blocked by Cloudflare API authentication.
+**Scope:** 44 indexable HTML pages (the original 42 pages plus the Industries and Solutions hubs), live response behaviour, crawl/index controls, on-page SEO, structured data, internal linking, content trust, and agent/LLM discovery.
+**Status:** repair implemented and verified locally; production status is verified separately after each deployment.
 
 ## Repair run — 17 September 2026
 
@@ -17,8 +24,8 @@ The audit has been converted into a repeatable local repair loop at `scripts/seo
 - Added a maintained `/llms.txt` and a homepage `describedby` Link response header.
 - Consolidated structured data into one valid graph on every indexable page, with one stable DrKing Organisation node and accurate provider/publisher references.
 - Removed the incorrect `MedicalBusiness` identity for DrKing and changed generic clinic-category nodes to audiences.
-- Rewrote every metadata outlier identified by the audit; all 42 titles and descriptions are unique and inside the current review bands.
-- Expanded relevant shared navigation so all 42 indexable pages have at least one incoming internal link.
+- Rewrote every metadata outlier identified by the audit; all 44 titles and descriptions are unique and inside the current review bands.
+- Expanded relevant shared navigation so all 44 indexable pages have at least one incoming internal link.
 - Repaired all detected heading-level jumps with non-visual section headings.
 - Added intrinsic dimensions to shared logo images on all pages.
 - Added a sitewide qualification explaining that uncited performance percentages and financial scenarios are illustrative and results vary.
@@ -26,11 +33,11 @@ The audit has been converted into a repeatable local repair loop at `scripts/seo
 
 ### Verified locally
 
-- 42/42 indexable routes return HTTP 200 in both the local preview and Cloudflare Pages emulator.
+- 44/44 indexable routes return HTTP 200 in the Cloudflare Pages emulator.
 - Random nonexistent route returns HTTP 404 with the branded `noindex,follow` page.
 - Confirmed legacy routes return 301 to their selected current equivalents.
 - Cloudflare Pages emulator parsed four redirects and three header rules without error.
-- XML sitemap contains exactly the 42 indexable canonical URLs.
+- XML sitemap contains exactly the 44 indexable canonical URLs.
 - Zero orphan pages, broken internal links, duplicate titles, duplicate descriptions, heading skips, duplicate IDs or invalid inline scripts.
 - Exactly one consolidated JSON-LD graph and one canonical DrKing Organisation node per indexable page.
 - Enquiry Function unit tests pass without sending a real enquiry.
@@ -38,7 +45,7 @@ The audit has been converted into a repeatable local repair loop at `scripts/seo
 
 ### Still blocked or approval-dependent
 
-- Cloudflare CLI reports that the configured API token is expired or lacks Pages permissions. No deployment was attempted.
+- Production deployment and Git remote status are verified separately from local validation for every release.
 - The `www` to apex redirect is a zone-level redirect; Cloudflare Pages `_redirects` does not support domain-level matching.
 - Cloudflare Markdown for Agents is a zone setting. It remains disabled until authorised zone access is restored.
 - Search Console reindexing and stale-result cleanup require Search Console access after deployment.
@@ -47,11 +54,11 @@ The audit has been converted into a repeatable local repair loop at `scripts/seo
 
 ## Executive summary
 
-DrKing has a sound basic crawl foundation: HTTPS works, all 42 intended pages have canonical tags, the XML sitemap contains all 42 URLs, `robots.txt` is valid, major AI-search crawlers are explicitly allowed, every page has a title, description and one H1, and no duplicate page titles, duplicate descriptions, thin pages, or missing image alt text were found.
+DrKing has a sound crawl foundation: HTTPS works, all 44 intended indexable pages have canonical tags, the XML sitemap contains all 44 URLs, `robots.txt` is valid, major AI-search crawlers are explicitly allowed, every page has a title, description and one H1, and no duplicate page titles, duplicate descriptions, thin pages, or missing image alt text were found.
 
-The highest-priority problem is the Cloudflare Pages catch-all rule in `_redirects`. Every unknown URL currently returns the homepage with `200 OK`. This creates sitewide soft 404s, keeps obsolete URLs eligible for indexing, and makes missing agent files look like malformed HTML responses. Google search results observed during the audit still exposed old routes and stale snippets containing the former Fawkner address and old HIPAA-related language. The catch-all needs to be removed, retired URLs mapped deliberately, and unknown paths allowed to return a real 404.
+The original highest-priority problem was the Cloudflare Pages catch-all rule in `_redirects`, which returned the homepage for unknown URLs. It has been removed, selected retired URLs have explicit redirects, and unknown paths now use the branded 404 response.
 
-The second group of issues is trust and entity clarity. Structured data does not consistently describe DrKing as the same software organisation, ten useful pages have no incoming internal links, and many commercial statistics and financial examples have no visible source. These weaknesses matter to both search engines and LLM systems deciding whether to quote or recommend a health-adjacent product.
+Entity schema and internal-link gaps have been repaired with one stable DrKing organisation identity, two collection hubs and zero orphan pages. Unsupported commercial statistics and financial examples still require a business-owned evidence register.
 
 The supplied agent-readiness tests place the site at **Level 1 — Basic Web Presence**. Content Signals and Markdown for Agents are useful additions. Web Bot Auth, DNS-AID, API catalog, MCP/A2A, OAuth and commerce discovery are not appropriate unless DrKing actually launches the corresponding public bot, agent, API, authentication service, or commerce endpoint.
 
@@ -71,7 +78,7 @@ The supplied agent-readiness tests place the site at **Level 1 — Basic Web Pre
 | P2 | LLM orientation | No real `/llms.txt` exists; the path currently soft-404s to homepage HTML. | Publish a concise, maintained `/llms.txt` listing canonical facts and core pages. | Implemented locally |
 | P2 | Discovery headers | Homepage Link header contains only a Google Fonts preconnect; no agent-useful registered relation is present. | Add a conservative `describedby` Link header for the maintained `/llms.txt`. | Implemented locally |
 | P2 | Heading structure | H1-to-H3 jumps occur on `ai-voice-receptionist`, `analytics`, `contact`, `online-booking`, and `vs-call-answering`. | Restore sequential section hierarchy without changing visual styling. | Fixed and verified locally |
-| P2 | Image layout stability | All 42 pages contain at least one shared image without explicit `width` and `height` attributes. | Add intrinsic dimensions to shared logos and other images to reserve layout space. Confirm actual CLS with a performance trace. | Fixed locally; CLS trace blocked |
+| P2 | Image layout stability | The original 42 pages contained at least one shared image without explicit `width` and `height` attributes. | Add intrinsic dimensions to shared logos and other images to reserve layout space. Confirm actual CLS with a performance trace. | Fixed locally; CLS trace blocked |
 | P2 | Asset delivery | Static CSS, JS and fonts use a short four-hour revalidation policy rather than long-lived versioned caching. The site also depends on a remote Newsreader stylesheet. | Fingerprint/version static assets and apply long-lived immutable caching. Consider self-hosting the permitted Newsreader files for predictability. Validate impact before and after. | Opportunity; not measured |
 | P2 | Content depth and proof | The site has many commercial landing pages but no substantive resource/article library or published client case studies. The current case-study page correctly says its cards are placeholders. | Publish only real, consented evidence: Australian implementation guides, integration explainers, privacy/security notes, original data methodology, and named or responsibly anonymised case studies with dates and measurable baselines. | Editorial programme |
 
@@ -80,11 +87,11 @@ The supplied agent-readiness tests place the site at **Level 1 — Basic Web Pre
 | Check | Live result | Recommendation |
 |---|---|---|
 | `robots.txt` | Pass | Retain explicit search-crawler rules and add the chosen Content Signal. |
-| XML sitemap | Pass | Retain all 42 canonical URLs; update only when pages change. |
+| XML sitemap | Pass | Retain all 44 canonical URLs; update only when pages change. |
 | AI crawler access | Pass | `OAI-SearchBot`, `PerplexityBot`, and `Claude-SearchBot` are allowed; `GPTBot` is blocked. Review this policy quarterly because crawler names and controls can change. |
-| Content Signals | Fail | Add an explicit business-approved directive. Recommended for LLM search: `ai-train=no, search=yes, ai-input=yes`. |
+| Content Signals | Pass | Retain the approved `ai-train=no, search=yes, ai-input=yes` directive and review it if business policy changes. |
 | Markdown negotiation | Fail | Enable and retest through Cloudflare. |
-| Useful Link relations | Fail | Add `describedby` only when a maintained descriptive resource exists. |
+| Useful Link relations | Pass | The homepage advertises the maintained `/llms.txt` resource with `rel="describedby"`. |
 | Web Bot Auth directory | Informational/neutral | Not an SEO feature. Do not publish a JWKS unless DrKing sends signed outbound bot/agent requests and can securely operate key rotation. |
 | DNS-AID | Fail | Not relevant to the current marketing site. It is experimental agent endpoint discovery, not a prerequisite for Google or LLM search visibility. Revisit only if DrKing launches a public agent endpoint; enable DNSSEC first. |
 | API catalog / OAuth / MCP / A2A / Agent Skills / WebMCP / ARD | Scanner failures | Expected for a marketing website. Do not create empty or misleading manifests. |
@@ -92,7 +99,7 @@ The supplied agent-readiness tests place the site at **Level 1 — Basic Web Pre
 
 ## Page-level on-page findings
 
-The baseline had nine titles above the 60-character review threshold and 20 descriptions above the 160-character review threshold. These have been rewritten and the current validator reports no outliers, duplicates or missing values across the 42 indexable pages.
+The baseline had nine titles above the 60-character review threshold and 20 descriptions above the 160-character review threshold. These have been rewritten and the current validator reports no outliers, duplicates or missing values across the 44 indexable pages.
 
 The first audit output reported the `after-hours` description as 32 characters because its apostrophe exposed a bug in the original audit expression. The description itself was not 32 characters. The persistent validator now parses quoted attributes correctly and includes a regression check for this case.
 
@@ -100,7 +107,7 @@ The thresholds remain snippet-quality review guides rather than direct ranking r
 
 ## Confirmed strengths
 
-- 42 intended HTML pages and 42 canonical sitemap entries.
+- 44 intended indexable HTML pages and 44 canonical sitemap entries.
 - Every page has a unique title and unique meta description.
 - Every page has exactly one H1.
 - No duplicate main-content pages detected in the source scan.
@@ -164,8 +171,8 @@ The thresholds remain snippet-quality review guides rather than direct ranking r
 
 ## Tests performed
 
-- Inspected all 42 HTML files for titles, descriptions, canonical tags, H1 count, headings, structured data, image alt text, image dimensions, word count, duplicates, internal incoming links and external source links.
-- Parsed the XML sitemap and matched its 42 URLs to the repository pages.
+- Inspected all 44 indexable HTML files for titles, descriptions, canonical tags, H1 count, headings, structured data, image alt text, image dimensions, word count, duplicates, internal incoming links and external source links.
+- Parsed the XML sitemap and matched its 44 URLs to the repository pages.
 - Fetched live homepage, robots, sitemap, known pages, legacy URLs, a random nonexistent URL, `www` variants and agent well-known paths.
 - Tested live `Accept: text/markdown` content negotiation.
 - Queried DNS-AID candidates and DNSSEC validation indicators.

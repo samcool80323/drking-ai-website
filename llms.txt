@@ -5,6 +5,8 @@
 ## Canonical website
 
 - [Homepage](https://drking.ai/): Product overview and core capabilities
+- [Industries hub](https://drking.ai/industries): Index of healthcare settings and industry-specific guidance
+- [Solutions hub](https://drking.ai/solutions): Index of communication, booking, follow-up, payment and growth workflows
 - [About DrKing](https://drking.ai/about): Company purpose and operating boundaries
 - [Integrations](https://drking.ai/integrations): Current integration availability and waitlist status
 - [Security](https://drking.ai/security): Australian-focused data and deployment boundaries
@@ -13,6 +15,7 @@
 
 ## Core solutions
 
+- [All solutions](https://drking.ai/solutions)
 - [AI voice receptionist](https://drking.ai/ai-voice-receptionist)
 - [AI web chat](https://drking.ai/ai-chat)
 - [Missed-call recovery](https://drking.ai/missed-call-recovery)
@@ -24,6 +27,7 @@
 
 ## Industries
 
+- [All industries](https://drking.ai/industries)
 - [Dental clinics](https://drking.ai/dentists)
 - [General practice](https://drking.ai/general-practice)
 - [Specialist clinics](https://drking.ai/specialists)
@@ -40,4 +44,3 @@
 - Integration availability depends on vendor access, product version and the setup confirmed during onboarding.
 - DrKing supports administrative communication workflows. Clinical decisions, urgent assessment and emergency care remain with qualified providers and emergency services.
 - For approved product facts or media enquiries, contact info@drking.ai.
-
