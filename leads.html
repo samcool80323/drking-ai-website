@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Leads Dashboard — DrKing</title>
+<style>
+:root{--paper:#F7F5F2;--ink:#1C1814;--teal:#0D5C5C;--terra:#C8553D;--sage:#A8C5B5;--muted:#716F66;--white:#fff;--border:#e3e2d9;--shadow:0 2px 8px rgba(28,24,20,.06);--sans:'Geomanist',system-ui,sans-serif;--serif:'Newsreader',Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased}
+.header{background:var(--white);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:var(--shadow)}
+.header h1{font-family:var(--serif);font-size:24px;font-weight:400;letter-spacing:-.02em}
+.header h1 em{color:var(--teal);font-style:italic}
+.header .stats{display:flex;gap:20px;font-size:13px;color:var(--muted)}
+.header .stats strong{color:var(--teal);font-size:20px;font-family:var(--serif);font-weight:400;display:block}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+.tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--white);border-radius:12px;padding:4px;border:1px solid var(--border)}
+.tab{padding:10px 20px;border:0;background:none;font-family:inherit;font-size:14px;color:var(--muted);cursor:pointer;border-radius:8px;transition:all .2s}
+.tab.active{background:var(--teal);color:var(--white)}
+.tab:hover:not(.active){background:rgba(13,92,92,.08)}
+.table-wrap{background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead{background:#faf9f4}
+th{text-align:left;padding:14px 16px;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--border)}
+td{padding:14px 16px;border-bottom:1px solid #f0f0e8;vertical-align:top}
+tr:hover td{background:#faf9f4}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.badge.new{background:#e8f0e8;color:var(--teal)}
+.badge.notified{background:#fff3e8;color:var(--terra)}
+.badge.demo{background:#e8f0f8;color:#3355aa}
+.badge.general{background:#f8e8f0;color:#aa3366}
+.badge.waitlist{background:#f0f8e8;color:#336600}
+.badge.intake{background:#f8f0e8;color:#aa6633}
+.badge.aida{background:#e8f8f0;color:#008855}
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty svg{width:48px;height:48px;margin-bottom:16px;opacity:.3}
+.loading{text-align:center;padding:40px;color:var(--muted)}
+.fields{font-size:12px;color:var(--muted);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fields strong{color:var(--ink);font-weight:500}
+.pagination{display:flex;justify-content:center;gap:8px;margin-top:20px}
+.pagination button{padding:8px 14px;border:1px solid var(--border);background:var(--white);border-radius:8px;font-family:inherit;font-size:13px;cursor:pointer;transition:all .2s}
+.pagination button:hover{border-color:var(--teal);color:var(--teal)}
+.pagination button:disabled{opacity:.4;cursor:not-allowed}
+.refresh-btn{padding:8px 16px;border:1px solid var(--border);background:var(--white);border-radius:8px;font-family:inherit;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.refresh-btn:hover{border-color:var(--teal);color:var(--teal)}
+.refresh-btn svg{width:16px;height:16px}
+@media(max-width:768px){
+  .header{flex-direction:column;gap:12px;align-items:flex-start}
+  .header .stats{flex-wrap:wrap;gap:12px}
+  .container{padding:16px}
+  table{font-size:13px}
+  th:nth-child(4),td:nth-child(4){display:none}
+  .fields{max-width:200px}
+}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>Leads <em>Dashboard</em></h1>
+<div class="stats">
+<div><strong id="stat-total">—</strong>Total leads</div>
+<div><strong id="stat-new">—</strong>New</div>
+<div><strong id="stat-today">—</strong>Today</div>
+</div>
+<button class="refresh-btn" onclick="loadData()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+Refresh
+</button>
+</div>
+<div class="container">
+<div class="tabs">
+<button class="tab active" data-tab="all" onclick="switchTab('all')">All Leads</button>
+<button class="tab" data-tab="enquiries" onclick="switchTab('enquiries')">Enquiries</button>
+<button class="tab" data-tab="submissions" onclick="switchTab('submissions')">AIDA Offers</button>
+</div>
+<div class="table-wrap">
+<div id="table-content" class="loading">Loading leads...</div>
+</div>
+<div class="pagination" id="pagination"></div>
+</div>
+<script>
+let currentTab='all';
+let currentPage=1;
+const PER_PAGE=50;
+
+async function fetchLeads(){
+  const res=await fetch('/api/leads?page='+currentPage+'&per_page='+PER_PAGE+'&type='+currentTab);
+  if(!res.ok){throw new Error('Failed to fetch')}
+  return res.json();
+}
+
+function formatDate(iso){
+  if(!iso)return '—';
+  const d=new Date(iso);
+  const now=new Date();
+  const diff=(now-d)/1000;
+  if(diff<60)return 'just now';
+  if(diff<3600)return Math.floor(diff/60)+'m ago';
+  if(diff<86400)return Math.floor(diff/3600)+'h ago';
+  if(diff<604800)return Math.floor(diff/86400)+'d ago';
+  return d.toLocaleDateString('en-AU',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+}
+
+function renderTable(data){
+  const el=document.getElementById('table-content');
+  if(!data.leads||data.leads.length===0){
+    el.innerHTML='<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2C8 2 6 4 6 8c0 3 1 5 2 8s2 4 4 4 3-1 4-4 2-5 2-8c0-4-2-6-6-6z"/></svg><p>No leads yet. Form submissions will appear here automatically.</p></div>';
+    return;
+  }
+
+  let rows=data.leads.map(l=>{
+    const badgeClass=l.source==='aida'?('aida'):l.type||'general';
+    const statusBadge=l.status?`<span class="badge ${l.status}">${l.status}</span>`:'';
+    const typeBadge=`<span class="badge ${badgeClass}">${l.source==='aida'?'AIDA':(l.type||'').replace(/-/g,' ')}</span>`;
+    const fields=l.fields_json?Object.entries(JSON.parse(l.fields_json)).map(([k,v])=>`<strong>${k}:</strong> ${String(v).substring(0,60)}`).join(' · '):'';
+    return `<tr>
+      <td>${formatDate(l.created_at)}</td>
+      <td>${typeBadge}</td>
+      <td><strong>${l.name||'—'}</strong><br><span style="font-size:12px;color:var(--muted)">${l.email||''}</span></td>
+      <td>${l.source||l.practice||'—'}</td>
+      <td class="fields">${fields}</td>
+      <td>${statusBadge}</td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML=`<table><thead><tr>
+    <th>Received</th><th>Type</th><th>Name</th><th>Source/Practice</th><th>Details</th><th>Status</th>
+  </tr></thead><tbody>${rows}</tbody></table>`;
+
+  // Pagination
+  const pgEl=document.getElementById('pagination');
+  if(data.total>PER_PAGE){
+    const totalPages=Math.ceil(data.total/PER_PAGE);
+    pgEl.innerHTML=`
+      <button ${currentPage<=1?'disabled':''} onclick="goPage(${currentPage-1})">← Prev</button>
+      <span style="padding:8px 14px;font-size:13px;color:var(--muted)">Page ${currentPage} of ${totalPages}</span>
+      <button ${currentPage>=totalPages?'disabled':''} onclick="goPage(${currentPage+1})">Next →</button>
+    `;
+  }else{
+    pgEl.innerHTML='';
+  }
+}
+
+function updateStats(data){
+  document.getElementById('stat-total').textContent=data.total||0;
+  document.getElementById('stat-new').textContent=(data.leads||[]).filter(l=>l.status==='new').length;
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('stat-today').textContent=(data.leads||[]).filter(l=>l.created_at&&l.created_at.startsWith(today)).length;
+}
+
+async function loadData(){
+  try{
+    const data=await fetchLeads();
+    renderTable(data);
+    updateStats(data);
+  }catch(e){
+    document.getElementById('table-content').innerHTML='<div class="empty"><p>Failed to load leads. Please try refreshing.</p></div>';
+  }
+}
+
+function switchTab(tab){
+  currentTab=tab;
+  currentPage=1;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  loadData();
+}
+
+function goPage(p){
+  currentPage=p;
+  loadData();
+}
+
+loadData();
+setInterval(loadData,30000);
+</script>
+</body>
+</html>
