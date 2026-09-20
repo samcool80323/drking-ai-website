@@ -1,10 +1,9 @@
 /*
   Content-Signal: ai-train=no, search=yes, ai-input=yes
+  X-Robots-Tag: index, follow
 
-/
-  Link: </llms.txt>; rel="describedby"; type="text/markdown"
+/leads
+  X-Robots-Tag: noindex, nofollow
 
-/llms.txt
-  Content-Type: text/plain; charset=utf-8
-  Cache-Control: public, max-age=3600
-
+/api/*
+  X-Robots-Tag: noindex, nofollow

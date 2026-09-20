@@ -19,4 +19,7 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+User-agent: Applebot
+Allow: /
+
 Sitemap: https://drking.ai/sitemap.xml
