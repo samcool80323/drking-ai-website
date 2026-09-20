@@ -332,6 +332,7 @@ header.site-header {
   background: #1c1814;
   color: #fff;
   font-family: var(--site-sans);
+  text-align: center;
 }
 
 .site-footer-inner,
@@ -347,31 +348,39 @@ header.site-header {
   border-top: 1px solid var(--site-line);
   color: var(--site-muted);
   font: 400 12px/1.6 var(--site-sans);
+  text-align: center;
 }
 
 .site-footer-inner {
-  display: grid;
-  grid-template-columns: minmax(220px, 1.4fr) minmax(460px, 2fr);
-  gap: clamp(44px, 7vw, 100px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(32px, 5vw, 60px);
+}
+
+.site-footer-brand {
+  text-align: center;
 }
 
 .site-footer-brand img {
   width: auto;
   height: 34px;
   filter: brightness(0) invert(1);
+  margin: 0 auto;
 }
 
 .site-footer-brand p {
-  max-width: 330px;
-  margin: 20px 0 0;
+  max-width: 380px;
+  margin: 20px auto 0;
   color: rgba(255, 255, 255, 0.68);
   font: 400 15px/1.65 var(--site-sans);
 }
 
 .site-footer-nav {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 28px;
+  width: 100%;
 }
 
 .site-footer-nav h2 {
@@ -396,7 +405,6 @@ header.site-header {
 
 .site-footer-nav a {
   display: block;
-  width: fit-content;
   min-height: 32px;
   padding: 5px 0;
   color: rgba(255, 255, 255, 0.86);
@@ -416,11 +424,12 @@ header.site-header {
   margin-top: 44px;
   padding-top: 20px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   color: rgba(255, 255, 255, 0.52);
   font-size: 12px;
+  text-align: center;
 }
 
 .site-footer-bottom p {
