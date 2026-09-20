@@ -452,6 +452,11 @@ header.site-header {
     padding-top: clamp(24px, 6vw, 52px);
   }
 
+  /* Footer: 5 cols → 3 cols on tablet */
+  .site-footer-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   header.site-header {
     top: 10px;
     width: calc(100% - 20px);
