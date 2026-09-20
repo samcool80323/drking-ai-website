@@ -5,6 +5,47 @@ const JSON_HEADERS = {
 };
 const ENQUIRY_TYPES = new Set(['demo-request', 'general-enquiry', 'integration-waitlist', 'client-intake']);
 
+// Notification recipients — info@drking.ai primary, BCCs to Samir + Rank My Business
+const NOTIFY_TO = 'info@drking.ai';
+
+async function sendEmailNotification({ id, type, source, pageTitle, name, email, fields }) {
+  const subject = `New ${type} enquiry — ${name || 'Unknown'} (drking.ai${source})`;
+  const fieldLines = Object.entries(fields).map(([k, v]) => `${k}: ${v}`).join('\n');
+  const body = [
+    `New enquiry received on drking.ai`,
+    ``,
+    `Type: ${type}`,
+    `Page: ${pageTitle}`,
+    `Source: ${source}`,
+    `Enquiry ID: ${id}`,
+    ``,
+    `--- Details ---`,
+    fieldLines,
+    ``,
+    `Stored in D1 database (drking-enquiries).`,
+  ].join('\n');
+
+  try {
+    await fetch('https://api.mailchannels.net/tx/v1/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        personalizations: [
+          {
+            to: [{ email: NOTIFY_TO }],
+            bcc: [{ email: 'samcool80@gmail.com' }, { email: 'sam@rankmybusiness.com.au' }],
+          },
+        ],
+        from: { email: 'noreply@drking.ai', name: 'DrKing Website' },
+        subject,
+        content: [{ type: 'text/plain', value: body }],
+      }),
+    });
+  } catch (err) {
+    console.error(JSON.stringify({ event: 'email_notification_failed', id, error: String(err) }));
+  }
+}
+
 const respond = (body, status = 200) => Response.json(body, { status, headers: JSON_HEADERS });
 
 const text = (value, maximum) => String(value ?? '').trim().slice(0, maximum);
@@ -65,6 +106,9 @@ export async function onRequestPost(context) {
     console.error(JSON.stringify({ event: 'enquiry_store_failed', id, type, source, error: String(error) }));
     return respond({ error: 'The enquiry could not be recorded.' }, 500);
   }
+
+  // Send email notification (non-blocking via waitUntil)
+  sendEmailNotification({ id, type, source, pageTitle, name, email, fields });
 
   if (context.env.LEAD_WEBHOOK_URL) {
     context.waitUntil((async () => {

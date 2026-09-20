@@ -108,18 +108,7 @@ const select=document.getElementById('pms'),otherField=document.getElementById('
 function syncOther(){const visible=select.value==='Other';otherField.hidden=!visible;otherField.style.display=visible?'flex':'none';other.required=visible;other.disabled=!visible}
 syncOther();select.addEventListener('change',syncOther);
 document.querySelectorAll('[data-pms]').forEach(link=>link.addEventListener('click',()=>{select.value=link.dataset.pms;syncOther()}));
-document.getElementById('waitlist-form').addEventListener('submit',e=>{e.preventDefault();const form=e.currentTarget;const name=form.elements.name.value.trim(),clinic=form.elements.clinic.value.trim();if(!name||!clinic||(select.value==='Other'&!other.value.trim())){document.getElementById('form-status').hidden=false;document.getElementById('form-status').textContent='Please enter your name, clinic name and practice management system.';return}const pms=select.value==='Other'?other.value.trim():select.value;const body=`Hi DrKing,
-
-I would like to join the integration waitlist.
-
-Name: ${name}
-Email: ${form.elements.email.value.trim()}
-Clinic name: ${clinic}
-PMS: ${pms}
-
-Please keep me updated about this integration.
-
-Thank you!`;window.location.href='mailto:info@drking.ai?subject='+encodeURIComponent('Integration waitlist — '+pms)+'&body='+encodeURIComponent(body);const status=document.getElementById('form-status');status.hidden=false;status.textContent='Your email draft is ready to open. Please send it to complete your registration. If your email app does not open, email the details above to info@drking.ai.'});
+// Waitlist form handled by form-submissions.js
 if('IntersectionObserver' in window&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.remove('pending');observer.unobserve(entry.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>{el.classList.add('pending');observer.observe(el)})}
 </script>
 </body></html>

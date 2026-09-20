@@ -142,11 +142,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&menu.classList.conta
 document.addEventListener('click',e=>{if(!e.target.closest('.nav'))closeMenu();});
 window.matchMedia('(min-width: 801px)').addEventListener('change',closeMenu);
 const form=document.getElementById('demo-form');
-form.addEventListener('submit',e=>{e.preventDefault();if(!form.reportValidity())return;const data=new FormData(form);for(const name of ['name','clinic','phone']){const input=form.elements[name];if(!input.value.trim()){input.setCustomValidity('Please enter your '+(name==='clinic'?'clinic name':name==='phone'?'phone number':'name')+'.');input.reportValidity();return;}}
-const body=['Hello DrKing,','','I would like to book a free 20-minute demo.','','Name: '+data.get('name').trim(),'Email: '+data.get('email').trim(),'Phone: '+data.get('phone').trim(),'Clinic name: '+data.get('clinic').trim(),'Number of locations: '+data.get('locations'),'Monthly patient volume: '+data.get('volume'),'','Please contact me to arrange a suitable time.','','Thank you!'].join('\r\n');
-const mailto='mailto:info@drking.ai?subject='+encodeURIComponent('Book DrKing demo — '+data.get('clinic').trim())+'&body='+encodeURIComponent(body);
-const status=document.getElementById('form-status');status.replaceChildren(document.createTextNode('Your email draft is ready. Send it in your email app to request your demo. If it didn’t open, '));const retry=document.createElement('a');retry.href=mailto;retry.textContent='open your draft again';status.append(retry,document.createTextNode(' or email info@drking.ai with your clinic details.'));window.location.href=mailto;
-});
+// Booking form handled by form-submissions.js
 form.addEventListener('input',e=>{if(e.target.setCustomValidity)e.target.setCustomValidity('');});
 document.getElementById('year').textContent=new Date().getFullYear();
 if('IntersectionObserver'in window&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-motion');const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}}),{threshold:0.08});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));}
