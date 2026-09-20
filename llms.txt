@@ -1,0 +1,46 @@
+# DrKing
+
+> DrKing is an Australian AI communication and practice-growth platform for medical, dental, allied health, veterinary and aged-care organisations. It supports administrative patient communication and does not replace clinicians, emergency services or clinical record systems.
+
+## Canonical website
+
+- [Homepage](https://drking.ai/): Product overview and core capabilities
+- [Industries hub](https://drking.ai/industries): Index of healthcare settings and industry-specific guidance
+- [Solutions hub](https://drking.ai/solutions): Index of communication, booking, follow-up, payment and growth workflows
+- [About DrKing](https://drking.ai/about): Company purpose and operating boundaries
+- [Integrations](https://drking.ai/integrations): Current integration availability and waitlist status
+- [Security](https://drking.ai/security): Australian-focused data and deployment boundaries
+- [Privacy](https://drking.ai/privacy): Website and enquiry data handling
+- [Contact](https://drking.ai/contact): Verified contact details and Australian office address
+
+## Core solutions
+
+- [All solutions](https://drking.ai/solutions)
+- [AI voice receptionist](https://drking.ai/ai-voice-receptionist)
+- [AI web chat](https://drking.ai/ai-chat)
+- [Missed-call recovery](https://drking.ai/missed-call-recovery)
+- [Online booking](https://drking.ai/online-booking)
+- [Appointment reminders](https://drking.ai/appointment-reminders)
+- [Payment collection](https://drking.ai/payment-collection)
+- [Lead management](https://drking.ai/lead-management)
+- [Clinic analytics](https://drking.ai/analytics)
+
+## Industries
+
+- [All industries](https://drking.ai/industries)
+- [Dental clinics](https://drking.ai/dentists)
+- [General practice](https://drking.ai/general-practice)
+- [Specialist clinics](https://drking.ai/specialists)
+- [Allied health](https://drking.ai/allied-health)
+- [Medical centres](https://drking.ai/medical-centres)
+- [Cosmetic clinics](https://drking.ai/cosmetic-clinics)
+- [Veterinary clinics](https://drking.ai/veterinary)
+- [Aged care](https://drking.ai/aged-care)
+
+## Citation and interpretation notes
+
+- All monetary amounts on the website are Australian dollars unless stated otherwise.
+- Calculator outputs, interface previews and hypothetical financial scenarios are illustrative unless a page explicitly identifies verified client data and its methodology.
+- Integration availability depends on vendor access, product version and the setup confirmed during onboarding.
+- DrKing supports administrative communication workflows. Clinical decisions, urgent assessment and emergency care remain with qualified providers and emergency services.
+- For approved product facts or media enquiries, contact info@drking.ai.

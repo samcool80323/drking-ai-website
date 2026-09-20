@@ -1,0 +1,9 @@
+name = "drking-ai"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-09-16"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "drking-enquiries"
+database_id = "b7fc31f0-ce31-4cc1-97b0-2fa1943c2399"
+migrations_dir = "migrations"

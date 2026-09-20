@@ -1,2 +1,5 @@
-/indexnow-key.txt /indexnow-key.txt 200
-/* /:splat 200
+# Retired public routes with a clear current equivalent.
+/features_page / 301
+/features_page.html / 301
+/ai-voice /ai-voice-receptionist 301
+/ai-voice.html /ai-voice-receptionist 301
