@@ -94,8 +94,8 @@ export async function onRequestPost({ request, env }) {
       }
     }
 
-    // Send email notification (non-blocking)
-    sendEmailNotification(env, { name, practice, email, phone, type: 'AIDA member offer' });
+    // Email notifications handled by server-side cron (drking-email-notifier.py)
+    // which polls D1 and sends via SMTP. MailChannels free tier is deprecated.
 
     return respond({
       success: true,

@@ -107,8 +107,8 @@ export async function onRequestPost(context) {
     return respond({ error: 'The enquiry could not be recorded.' }, 500);
   }
 
-  // Send email notification (non-blocking via waitUntil)
-  sendEmailNotification({ id, type, source, pageTitle, name, email, fields });
+  // Email notifications handled by server-side cron (drking-email-notifier.py)
+  // which polls D1 and sends via SMTP. MailChannels free tier is deprecated.
 
   if (context.env.LEAD_WEBHOOK_URL) {
     context.waitUntil((async () => {
