@@ -34,7 +34,7 @@ async function sendEmailNotification(env, { name, practice, email, phone, type }
         personalizations: [
           { to: [{ email: NOTIFY_TO }], bcc: [{ email: 'samcool80@gmail.com' }, { email: 'sam@rankmybusiness.com.au' }] },
         ],
-        from: { email: 'noreply@drking.ai', name: 'DrKing Website' },
+        from: { email: 'noreply@mail.drking.ai', name: 'DrKing Website' },
         subject,
         content: [{ type: 'text/plain', value: body }],
       }),
