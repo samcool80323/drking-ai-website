@@ -5,6 +5,8 @@ import vm from 'node:vm';
 const root = path.resolve(import.meta.dirname, '..');
 const pages = fs.readdirSync(root).filter((file) => file.endsWith('.html')).sort();
 const problems = [];
+const headers = fs.readFileSync(path.join(root, '_headers'), 'utf8');
+const leadsIsNoindex = /\/leads\s*\n\s*X-Robots-Tag:\s*noindex,\s*nofollow/i.test(headers);
 
 for (const file of pages) {
   const html = fs.readFileSync(path.join(root, file), 'utf8');
@@ -26,6 +28,13 @@ for (const file of pages) {
     shellJs: count(/src=["']\/assets\/site-shell\.js["']/gi),
   };
   for (const [name, value] of Object.entries(checks)) {
+    // The intentionally noindex utility has a dashboard shell, not a content <main>.
+    if (file === 'leads.html' && ['mainOpen', 'mainClose'].includes(name)) {
+      if (!leadsIsNoindex || !/<meta\s+name="robots"\s+content="noindex,nofollow"/i.test(html)) {
+        problems.push({ file, type: 'utility-policy', detail: 'dashboard must remain noindex in meta and response headers' });
+      }
+      continue;
+    }
     const expected = name === 'h1' ? 1 : 1;
     if (value !== expected) problems.push({ file, type: 'structure', detail: `${name}: expected ${expected}, found ${value}` });
   }

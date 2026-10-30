@@ -1,9 +1,11 @@
 /*
   Content-Signal: ai-train=no, search=yes, ai-input=yes
-  X-Robots-Tag: index, follow
 
 /leads
   X-Robots-Tag: noindex, nofollow
+
+/aida
+  X-Robots-Tag: noindex, follow
 
 /api/*
   X-Robots-Tag: noindex, nofollow

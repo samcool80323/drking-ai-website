@@ -2,8 +2,20 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = path.resolve(import.meta.dirname, '..');
-const pages = fs.readdirSync(root).filter((file) => file.endsWith('.html') && file !== '404.html').sort();
+const allPages = fs.readdirSync(root).filter((file) => file.endsWith('.html') && file !== '404.html').sort();
 const problems = [];
+const headers = fs.readFileSync(path.join(root, '_headers'), 'utf8');
+const excluded = new Map([
+  ['aida.html', { meta: /<meta\s+name="robots"\s+content="noindex,follow"/i, header: /\/aida\s*\n\s*X-Robots-Tag:\s*noindex,\s*follow/i }],
+  ['leads.html', { meta: /<meta\s+name="robots"\s+content="noindex,nofollow"/i, header: /\/leads\s*\n\s*X-Robots-Tag:\s*noindex,\s*nofollow/i }],
+]);
+for (const [file, policy] of excluded) {
+  const html = fs.readFileSync(path.join(root, file), 'utf8');
+  if (!policy.meta.test(html) || !policy.header.test(headers)) {
+    problems.push(`${file}: excluded utility/temporary route must be noindex in both meta and response headers`);
+  }
+}
+const pages = allPages.filter((file) => !excluded.has(file));
 const titles = new Map();
 const descriptions = new Map();
 const incoming = Object.fromEntries(pages.map((file) => [file, 0]));
@@ -83,6 +95,9 @@ for (const [file, count] of Object.entries(incoming)) if (file !== 'index.html' 
 
 const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+for (const file of excluded.keys()) {
+  if (sitemapUrls.includes(`https://drking.ai/${file.slice(0, -5)}`)) problems.push(`${file}: noindex route must be omitted from sitemap`);
+}
 for (const hub of requiredHubs) if (!sitemapUrls.includes(hub)) problems.push(`sitemap: missing hub ${hub}`);
 if (sitemapUrls.length !== pages.length) problems.push(`sitemap has ${sitemapUrls.length} URLs for ${pages.length} indexable pages`);
 for (const file of pages) {
@@ -105,6 +120,7 @@ if (!llms.includes('https://drking.ai/about') || !requiredHubs.every((hub) => ll
 
 const result = {
   indexablePages: pages.length,
+  excludedNoindexPages: [...excluded.keys()],
   sitemapUrls: sitemapUrls.length,
   orphanPages: Object.values(incoming).filter((count) => count === 0).length - (incoming['index.html'] === 0 ? 1 : 0),
   problems,
