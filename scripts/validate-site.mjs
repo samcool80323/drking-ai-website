@@ -22,7 +22,7 @@ for (const file of pages) {
     h1: count(/<h1\b/gi),
     header: count(/<header\b[^>]*class=["'][^"']*site-header/gi),
     mobileNav: count(/\bid=["']mobile-nav["']/gi),
-    shellCss: count(/href=["']\/assets\/site-shell\.css["']/gi),
+    shellCss: count(/href=["']\/assets\/site-shell\.css(?:\?[^"']*)?["']/gi),
     shellJs: count(/src=["']\/assets\/site-shell\.js["']/gi),
   };
   for (const [name, value] of Object.entries(checks)) {
