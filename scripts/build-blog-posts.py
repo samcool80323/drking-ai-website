@@ -24,9 +24,9 @@ VENDORS_NOW = [
     ('Nookal', 'Allied health'),
     ('Power Diary', 'Allied health · Psychology'),
     ('Dentally', 'Dental'),
+    ('Dental4Web', 'Dental'),
 ]
 VENDORS_ROADMAP = [
-    ('Centaur Software', 'Under development', 'Review automation first, then recalls, reactivation and treatment follow-up.'),
     ('Core Practice', 'Planned', 'Scope and timing being confirmed. The standalone toolkit works today.'),
     ('Best Practice', 'Waitlist open', 'Register interest and the team will keep you updated.'),
 ]
