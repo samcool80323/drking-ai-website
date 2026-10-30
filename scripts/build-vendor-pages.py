@@ -8,6 +8,8 @@ from pathlib import Path
 from html import escape
 import json
 
+from cliniko_visuals import cliniko_hero, cliniko_usecase
+
 root = Path(__file__).resolve().parents[1]
 source = (root / 'ai-voice-receptionist.html').read_text()
 body_open = source.index('<body>')
@@ -221,6 +223,8 @@ PAGES = [
             ('The cancelled slot that refills',
              'A 3 pm cancellation comes in at 11 am. DrKing texts your waitlist, offers the slot, and fills it by 11:20. Your team doesn\u2019t have to think about it.'),
         ],
+        'custom_hero': cliniko_hero(),
+        'custom_secondary': cliniko_usecase(),
     },
     {
         'slug': 'nookal-integration',
@@ -301,6 +305,8 @@ for page in PAGES:
         f'<article class="problem-card"><h3>{escape(t)}</h3><p>{escape(d)}</p></article>'
         for t, d in page['problems']
     )
+    secondary = page.get('custom_secondary','')
+    secondary_html = f'\n<div class="secondary-art">{secondary}</div>\n' if secondary else ''
     sections = f'''
 <section class="article-section" aria-labelledby="p1"><span class="step-tag">The problems</span>
 <h2 id="p1">What your front desk is actually up against.</h2>
@@ -310,7 +316,7 @@ for page in PAGES:
 <h2 id="p2">How DrKing works with {escape(vendor)}.</h2>
 <div class="workflow-grid">{workflow_steps(page['workflows'])}</div>
 <div class="status-banner"><span class="status-dot"></span><div><strong>{escape(page['status_label'])}</strong><p>{escape(page['status_note'])}</p></div></div></section>
-
+{secondary_html}
 <section class="article-section" aria-labelledby="p3"><span class="step-tag">Use cases</span>
 <h2 id="p3">Moments where it makes the difference.</h2>
 <div class="use-case-grid">{use_case_cards(page['use_cases'])}</div></section>
@@ -337,6 +343,7 @@ for page in PAGES:
         f'<script type="application/ld+json" id="structured-data">{json.dumps(graph, ensure_ascii=False, separators=(",", ":"))}</script>\n'
         '</head><body>\n'
     )
+    hero_art = page.get('custom_hero') or integration_graphic(page['initial'], vendor, page['accent'], page['dental'])
     hero = (
         '<main id="main" class="blog-article"><div class="article-wrap">'
         '<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span>'
@@ -345,7 +352,7 @@ for page in PAGES:
         f'<div><p class="article-eyebrow">Integration · {escape(page["status_label"])}</p>'
         f'<h1 id="article-title">{page["h1"]}</h1>'
         f'<p class="article-lede">{page["lede"]}</p></div>'
-        f'<div class="hero-art">{integration_graphic(page["initial"], vendor, page["accent"], page["dental"])}</div>'
+        f'<div class="hero-art">{hero_art}</div>'
         '</div></section><div class="article-wrap article-main">'
     )
     cta = (
