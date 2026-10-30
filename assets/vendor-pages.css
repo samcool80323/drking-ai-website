@@ -1,7 +1,38 @@
 /* DrKing vendor integration pages: cards, workflows and status. */
+
+/* Cliniko visual — organic blob + HTML conversation, matching homepage design */
+.cliniko-visual { position: relative; width: 100%; max-width: 560px; aspect-ratio: 600/590; margin: 0 auto; }
+.cv-organism { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cv-hand-note { position: absolute; top: 12px; right: 4%; font-family: Newsreader, serif; font-size: 19px; line-height: 1.15; font-style: italic; color: #0D5C5C; transform: rotate(8deg); z-index: 2; }
+.cv-hand-note svg { display: block; margin-top: 8px; width: 45px; color: #C8553D; }
+.cv-conversation { position: absolute; top: 16%; left: 10%; width: 72%; max-width: 340px; z-index: 3; transform: rotate(-3deg); animation: cv-float 7s ease-in-out infinite; }
+.cv-msg { background: #fff; box-shadow: 0 2px 4px rgba(28,24,20,.04), 0 12px 24px rgba(28,24,20,.06); border-radius: 22px; padding: 17px 20px; }
+.cv-msg-head { display: flex; align-items: center; gap: 9px; font-size: 13px; color: #716F66; margin-bottom: 10px; }
+.cv-mini-icon { width: 28px; height: 28px; border-radius: 50%; display: inline-grid; place-items: center; background: #F2EBE2; color: #C8553D; flex-shrink: 0; }
+.cv-mini-icon svg { width: 15px; height: 15px; }
+.cv-time { margin-left: auto; font-size: 9px; }
+.cv-msg p { font-size: 14.5px; line-height: 1.55; color: #1C1814; margin: 0; }
+.cv-reply { margin: 14px -32px 0 36px; background: #0D5C5C; color: #fff; border-radius: 20px 20px 20px 5px; padding: 16px 20px; font-size: 14.5px; line-height: 1.6; box-shadow: 0 2px 4px rgba(28,24,20,.04), 0 12px 24px rgba(28,24,20,.06); }
+.cv-reply-label { display: flex; align-items: center; gap: 6px; font-size: 9px; color: #CDDFD5; margin-bottom: 7px; }
+.cv-reply-time { font-size: 8px; display: block; text-align: right; opacity: .65; margin-top: 5px; }
+.cv-booking { position: absolute; bottom: 14%; right: 2%; display: flex; align-items: center; gap: 11px; padding: 13px 18px; background: #fff; box-shadow: 0 2px 4px rgba(28,24,20,.04), 0 12px 24px rgba(28,24,20,.08); border-radius: 999px; transform: rotate(4deg); animation: cv-float 8s ease-in-out infinite reverse; z-index: 3; max-width: 260px; }
+.cv-booking-check { width: 32px; height: 32px; border-radius: 50%; display: inline-grid; place-items: center; background: #0D5C5C; color: #fff; flex-shrink: 0; }
+.cv-booking-check svg { width: 16px; height: 16px; }
+.cv-booking strong { display: block; font-size: 13px; color: #1C1814; }
+.cv-booking small { font-size: 10.5px; color: #716F66; }
+.cv-caption { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; font-size: 9px; letter-spacing: .1em; color: #0D5C5C; z-index: 3; white-space: nowrap; }
+.cv-live-dot { height: 6px; width: 6px; background: #0D5C5C; border-radius: 100%; box-shadow: 0 0 0 4px rgba(13,92,92,.08); animation: cv-pulse 3s ease-in-out infinite; }
+@keyframes cv-float { 0%,100% { translate: 0 0; } 50% { translate: 0 -7px; } }
+@keyframes cv-pulse { 0%,100% { box-shadow: 0 0 0 4px rgba(13,92,92,.08); } 50% { box-shadow: 0 0 0 7px rgba(13,92,92,.03); } }
+@media (max-width: 600px) {
+  .cliniko-visual { max-width: 360px; }
+  .cv-conversation { left: 6%; width: 80%; }
+  .cv-msg p, .cv-reply { font-size: 13px; }
+  .cv-booking { max-width: 230px; padding: 10px 14px; }
+  .cv-hand-note { font-size: 16px; }
+}
+
 .secondary-art { margin: 32px 0 8px; max-width: 760px; }
-.secondary-art svg { width: 100%; height: auto; display: block; }
-.secondary-art figcaption { font-size: 12px; color: #6b6a62; line-height: 1.5; padding: 12px 4px 0; max-width: 60ch; }
 .cliniko-hero svg { filter: drop-shadow(0 4px 12px rgba(28,24,20,.04)); }
 
 .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
