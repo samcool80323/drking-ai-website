@@ -1,3 +1,6 @@
+import os as _os, sys as _sys
+if _os.environ.get('DRKING_ALLOW_LEGACY') != '1':
+    _sys.exit('LEGACY GENERATOR: the committed *.html files are now the source of truth (claims cleaned, sprites restored 2026-10-31). Re-running this would overwrite them with old copy. Set DRKING_ALLOW_LEGACY=1 only if you have ported those fixes into this script.')
 """Add verified vendor routes to the shared DrKing footer across HTML pages.
 
 Idempotent. Fail closed on footer drift, duplicate vendor groups, or missing

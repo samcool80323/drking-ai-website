@@ -41,6 +41,14 @@ for (const file of pages) {
 
   const footerYear = html.indexOf('id="year"');
 
+  // Every <use href="#id"> must resolve to an element in the same document, otherwise
+  // icons / blob backgrounds render blank (regression from the 2026-09-16 shell unification).
+  const definedIds = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map((m) => m[1]));
+  const undefinedSymbols = [...new Set([...html.matchAll(/<use[^>]+href=["']#([^"']+)["']/g)].map((m) => m[1]))]
+    .filter((id) => !definedIds.has(id));
+  if (undefinedSymbols.length) problems.push({ file, type: 'svg-sprite', detail: `undefined <use> targets: ${undefinedSymbols.join(', ')} (run scripts/restore-svg-sprites.py)` });
+  if (!/<link[^>]+rel=["']icon["'][^>]+href=["']\/favicon\.svg["']/i.test(html)) problems.push({ file, type: 'favicon', detail: 'missing /favicon.svg icon link' });
+
   for (const [index, match] of [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].entries()) {
     const [, attrs, source] = match;
     if (/\bsrc=/i.test(attrs)) continue;

@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+if (process.env.DRKING_ALLOW_LEGACY !== '1') { console.error('LEGACY GENERATOR: the committed *.html files are now the source of truth (claims cleaned, sprites restored 2026-10-31). Re-running this would overwrite them with old copy. Set DRKING_ALLOW_LEGACY=1 only if you have ported those fixes into this script.'); process.exit(1); }
 
 const root = path.resolve(import.meta.dirname, '..');
 const pages = fs.readdirSync(root).filter((file) => file.endsWith('.html') && file !== '404.html').sort();

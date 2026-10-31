@@ -1,17 +1,49 @@
-name: Deploy to Cloudflare Pages
+name: Validate site (deploy via scripts/release.sh)
+
+# Deploys run from the verified local release script (curated dist/ + Pages Functions).
+# The old workflow deployed the whole repo root with an expired token and failed on
+# every push. Pushes now only run the quality gate; a manual deploy job is available
+# once CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets are refreshed.
 
 on:
   push:
     branches: [master]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Deploy curated dist/ to Cloudflare Pages production'
+        type: boolean
+        default: false
 
 jobs:
-  deploy:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/validate-site.mjs
+      - run: node scripts/validate-seo.mjs
+      - run: python3 scripts/audit-static.py
+
+  deploy:
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/build-pages.mjs
+      - run: |
+          npx --yes wrangler@4 pages functions build functions --outdir .fnbuild --output-routes-path .fnbuild/_routes.json
+          cp .fnbuild/index.js dist/_worker.js
+          cp .fnbuild/_routes.json dist/_routes.json
+      - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy . --project-name=drking-ai --branch=main
+          command: pages deploy dist --project-name=drking-ai --branch=main --commit-hash=${{ github.sha }}
