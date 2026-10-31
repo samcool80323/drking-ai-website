@@ -23,7 +23,7 @@ print(f'static audit ok; {claims} numeric/absolute claim mentions to keep review
 PY
 
 echo "== 2. Commit + push to DrKing GitHub master"
-git add -A -- '*.html' assets fonts favicon.* apple-touch-icon.png sitemap.xml robots.txt llms.txt _headers _redirects scripts .github 2>/dev/null || true
+git add -A -- ':(glob)*.html' assets fonts favicon.* apple-touch-icon.png sitemap.xml robots.txt llms.txt _headers _redirects scripts .github 2>/dev/null || true
 git diff --cached --quiet || git commit -q -m "$MSG"
 SHA=$(git rev-parse HEAD)
 git push -q origin HEAD:master
