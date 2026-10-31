@@ -41,6 +41,7 @@ jobs:
       - name: Build curated bundle
         run: |
           node scripts/build-pages.mjs
+          mkdir -p .fnbuild
           npx --yes wrangler@4 pages functions build functions --outdir .fnbuild --output-routes-path .fnbuild/_routes.json
           if head -c 200 .fnbuild/index.js | grep -q form-data; then echo "functions bundle is multipart"; exit 1; fi
           cp .fnbuild/index.js dist/_worker.js
