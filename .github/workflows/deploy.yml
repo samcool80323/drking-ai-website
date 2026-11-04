@@ -48,7 +48,11 @@ jobs:
           cp .fnbuild/_routes.json dist/_routes.json
           grep -q '/api/leads' dist/_routes.json
       - name: Deploy to Cloudflare Pages (production)
-        run: npx --yes wrangler@4 pages deploy dist --project-name=drking-ai --branch=main --commit-hash=${{ github.sha }} --commit-message="${{ github.event.head_commit.message || 'manual deploy' }}" --commit-dirty=true
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message || 'manual deploy' }}
+        run: |
+          MSG=$(printf '%s' "$COMMIT_MSG" | head -n1 | tr -cd '[:alnum:][:space:].,:;()/+_-' | cut -c1-180)
+          npx --yes wrangler@4 pages deploy dist --project-name=drking-ai --branch=main --commit-hash=${{ github.sha }} --commit-message="$MSG" --commit-dirty=true
       - name: Live checks
         run: |
           sleep 10
