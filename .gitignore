@@ -4,3 +4,4 @@ node_modules/
 dist/
 dist-ui-audit.json
 .fnbuild/
+dist-eyebrow-measure.json
