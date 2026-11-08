@@ -8,7 +8,7 @@ const respond = (body, status = 200) => Response.json(body, { status, headers: J
 
 const text = (value, maximum) => String(value ?? '').trim().slice(0, maximum);
 
-// Notification recipients — info@drking.ai gets the primary, BCCs go to Samir
+// Notification recipients — info@drking.ai gets the primary, BCCs go to the owner
 const NOTIFY_TO = 'info@drking.ai';
 const NOTIFY_BCC = 'samcool80@gmail.com, sam@rankmybusiness.com.au';
 

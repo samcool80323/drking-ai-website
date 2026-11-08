@@ -5,7 +5,7 @@ const JSON_HEADERS = {
 };
 const ENQUIRY_TYPES = new Set(['demo-request', 'general-enquiry', 'integration-waitlist', 'client-intake']);
 
-// Notification recipients — info@drking.ai primary, BCCs to Samir + Rank My Business
+// Notification recipients — info@drking.ai primary, BCCs to the owner + Rank My Business
 const NOTIFY_TO = 'info@drking.ai';
 
 async function sendEmailNotification({ id, type, source, pageTitle, name, email, fields }) {
