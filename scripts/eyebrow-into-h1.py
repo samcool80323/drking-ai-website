@@ -18,7 +18,8 @@ ROOT = Path(__file__).resolve().parent.parent
 BASE = sys.argv[1].rstrip('/')
 CHROME = '/app/data/.agent-browser/browsers/chrome-151.0.7922.71/chrome'
 EYEBROWS = {  # page: new eyebrow text (None = keep current text)
-    'admin-overhead': 'Clinic admin automation', 'after-hours': 'After-hours answering for clinics',
+    'admin-overhead': 'Clinic admin automation',
+    'dentists': 'AI receptionist for dental clinics', 'after-hours': 'After-hours answering for clinics',
     'allied-health': None, 'analytics': 'Clinic analytics dashboard', 'chiropractic': None,
     'general-practice': None, 'lead-management': 'Clinic CRM and lead management',
     'medical-centres': 'Communication software for medical centres', 'medicaldirector-integration': 'MedicalDirector + AI receptionist',
