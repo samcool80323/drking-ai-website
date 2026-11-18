@@ -1,6 +1,22 @@
 (() => {
   'use strict';
 
+  // Remember the first page of this visit so lead emails show where the visitor started.
+  const LANDING_KEY = 'drking-landing';
+  const landingInfo = () => {
+    try {
+      let info = JSON.parse(sessionStorage.getItem(LANDING_KEY) || 'null');
+      if (!info || typeof info.path !== 'string') {
+        info = { path: window.location.pathname, referrer: document.referrer || '' };
+        sessionStorage.setItem(LANDING_KEY, JSON.stringify(info));
+      }
+      return info;
+    } catch {
+      return { path: window.location.pathname, referrer: document.referrer || '' };
+    }
+  };
+  landingInfo();
+
   const forms = [...document.querySelectorAll('form[data-drking-form]')];
   if (!forms.length) return;
 
@@ -82,6 +98,8 @@
           type: form.dataset.drkingForm,
           source: window.location.pathname,
           pageTitle: document.title,
+          landing: landingInfo().path,
+          referrer: String(landingInfo().referrer || '').slice(0, 300),
           fields,
           website: '',
         }),
