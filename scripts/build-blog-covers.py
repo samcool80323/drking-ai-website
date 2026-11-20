@@ -32,10 +32,10 @@ TEMPLATE = '''<!doctype html><html><head><meta charset="utf-8">
 .brand {{ position: absolute; top: 44px; left: 64px; display: flex; align-items: center; gap: 12px; }}
 .brand img {{ height: 30px; width: auto; }}
 .foot {{ position: absolute; bottom: 44px; left: 64px; font-size: 15px; color: #5f5c55; letter-spacing: .02em; }}
-.copy {{ position: absolute; top: 172px; left: 64px; width: 820px; }}
-.eyebrow {{ font-weight: 400; font-size: 15px; letter-spacing: .16em; text-transform: uppercase; color: #C8553D; margin-bottom: 20px; }}
-h1 {{ font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 50px; line-height: 1.14; letter-spacing: -.02em; }}
-h1 em {{ color: #0D5C5C; }}
+.copy {{ position: absolute; top: 128px; left: 64px; width: 1020px; }}
+.eyebrow {{ font-weight: 400; font-size: 19px; letter-spacing: .16em; text-transform: uppercase; color: #C8553D; margin-bottom: 24px; }}
+h1 {{ font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 68px; line-height: 1.1; letter-spacing: -.02em; }}
+h1 em {{ color: #0D5C5C; white-space: nowrap; }}
 .motif {{ position: absolute; right: 64px; bottom: 56px; width: 300px; }}
 .chat {{ background: #fff; border-radius: 18px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(28,24,20,.04), 0 12px 24px rgba(28,24,20,.06); font-size: 14.5px; line-height: 1.45; }}
 .chat .who {{ font-size: 12px; color: #5f5c55; margin-bottom: 6px; letter-spacing: .06em; text-transform: uppercase; }}
