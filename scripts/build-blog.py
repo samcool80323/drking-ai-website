@@ -72,6 +72,9 @@ table.compare td{padding:12px 14px;border-top:1px solid var(--line);vertical-ali
 .related-card:hover{transform:translateY(-3px)}
 .related .eyebrow,.related-card .eyebrow{font-size:11.5px!important}.related-card h2,.related-card h3{font:300 25px/1.2 var(--serif);margin:12px 0 10px}.related-card p{margin:0;color:#5f5c55;font-size:15px;line-height:1.6}
 .blog-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px;padding:10px 0 90px}
+.related-card.has-cover{padding:0;overflow:hidden}
+.related-card.has-cover .cover{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.related-card.has-cover .card-body{display:block;padding:22px 26px 26px}
 .mobile-toc{display:none}
 @media(max-width:1000px){.article-shell{grid-template-columns:minmax(0,1fr);gap:0}.toc{display:none}.mobile-toc{display:block;margin:0 0 30px;border:1px solid var(--line);border-radius:16px;background:#fffefa;padding:4px 18px}
 .mobile-toc summary{cursor:pointer;padding:12px 0;font-weight:500;color:var(--teal);list-style:none}.mobile-toc ol{margin:0 0 14px;padding-left:20px;font-size:15.5px}.mobile-toc li{margin:0 0 6px}.mobile-toc a{color:#2a2621}}
@@ -144,7 +147,7 @@ def fork_parts():
     return s, head_end, main_start, main_end
 
 
-def set_meta(s, title, desc, url, og_type):
+def set_meta(s, title, desc, url, og_type, image=None):
     full = f'{title}'
     rep = [
         (r'<title>.*?</title>', f'<title>{esc(full)}</title>'),
@@ -155,6 +158,11 @@ def set_meta(s, title, desc, url, og_type):
         (r'<meta property="og:type" content="[^"]*">', f'<meta property="og:type" content="{og_type}">'),
         (r'<meta property="og:url" content="[^"]*">', f'<meta property="og:url" content="{url}">'),
     ]
+    if image:
+        rep += [
+            (r'<meta property="og:image" content="[^"]*">', f'<meta property="og:image" content="{image}">'),
+            (r'<meta property="og:image:secure_url" content="[^"]*">', f'<meta property="og:image:secure_url" content="{image}">'),
+        ]
     for pat, new in rep:
         s, n = re.subn(pat, lambda m: new, s, count=1, flags=re.S)
         assert n == 1, pat
@@ -212,7 +220,16 @@ def closing_html(h2, p, href, cta):
     return f'''<section class="closing wrap" aria-labelledby="closing-heading"><svg viewBox="0 0 280 300" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M140 290V90M140 195C35 195 20 60 20 60s120 15 120 135Zm0-50C140 35 260 10 260 10s0 135-120 135Z"/></svg><h2 id="closing-heading">{h2}</h2><p>{esc(p)}</p><a class="btn" href="{href}">{esc(cta)} {ARROW}</a></section>'''
 
 
+COVERS_DIR = Path(__file__).resolve().parent.parent / 'assets' / 'covers'
+
+
 def card(a, h='h3'):
+    cover = COVERS_DIR / f"{a['slug']}.png"
+    if cover.exists():
+        img = f'<img class="cover" src="/assets/covers/{a["slug"]}.png" alt="" width="1200" height="675" loading="lazy">'
+        return (f'<a class="related-card has-cover" href="/{a["slug"]}">{img}'
+                f'<span class="card-body"><div class="eyebrow">{esc(a["category"])} · {a["reading_minutes"]} min read</div>'
+                f'<{h}>{esc(strip_tags(a["h1"]))}</{h}><p>{esc(a["dek"])}</p></span></a>')
     return f'''<a class="related-card" href="/{a['slug']}"><div class="eyebrow">{esc(a['category'])} · {a['reading_minutes']} min read</div><{h}>{esc(strip_tags(a['h1']))}</{h}><p>{esc(a['dek'])}</p></a>'''
 
 
@@ -236,7 +253,8 @@ def build_article(a, arts, src, org):
     related = f'''<section class="related wrap" aria-labelledby="related-heading"><div class="eyebrow">Keep reading</div><h2 id="related-heading" style="font:300 clamp(32px,3.4vw,46px)/1.1 var(--serif);margin:14px 0 0">More from the <em style="color:var(--terra)">DrKing Journal</em></h2><div class="related-grid">{''.join(card(x) for x in others)}</div></section>''' if others else ''
     main = f'''<main id="main"> {hero_html(a, a['h1'], a['dek'], crumbs, byline)} <div class="wrap article-shell"><aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol>{toc_items}<li><a href="#faq">FAQs</a></li></ol></aside><article class="article-body" aria-labelledby="hero-title"><details class="mobile-toc"><summary>On this page</summary><ol>{toc_items}<li><a href="#faq">FAQs</a></li></ol></details><section class="takeaways" aria-labelledby="takeaways-heading"><h2 id="takeaways-heading">Key takeaways</h2><ul>{takeaways}</ul></section>{body}{about}{sources_html}</article></div> {faq_html(a['faq'])} {related} {closing_html('Follow-up that <em>keeps going.</em>', 'See how DrKing runs reactivation, reminders and treatment follow-up for Australian practices.', '/demo', 'Book a demo')} </main>'''
     out = s[:ms] + main + s[me:]
-    out = set_meta(out, title, desc, url, 'article')
+    cover_url = f'{BASE}/assets/covers/{a["slug"]}.png' if (COVERS_DIR / f'{a["slug"]}.png').exists() else None
+    out = set_meta(out, title, desc, url, 'article', image=cover_url)
     out = out.replace('</head>', ARTICLE_CSS + '\n</head>', 1)
     out = null_safe(out)
     graph = [org,
@@ -247,7 +265,7 @@ def build_article(a, arts, src, org):
          'mainEntityOfPage': {'@id': url + '#webpage'}, 'datePublished': a['published'], 'dateModified': a['updated'],
          'author': {'@type': 'Organization', 'name': 'DrKing Editorial Team', 'url': BASE + '/about'},
          'publisher': {'@id': BASE + '/#organization'}, 'inLanguage': 'en-AU',
-         'image': 'https://drking.ai/assets/drking-social-share.jpg?v=ae223eb8',
+         'image': cover_url or 'https://drking.ai/assets/drking-social-share.jpg?v=ae223eb8',
          'keywords': ', '.join([a['primary_keyword']] + a.get('secondary_keywords', [])),
          'citation': [x['url'] for x in a['sources']] or None},
         {'@type': 'BreadcrumbList', '@id': url + '#breadcrumb', 'itemListElement': [

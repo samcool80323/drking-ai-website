@@ -124,6 +124,9 @@ table.compare td{padding:12px 14px;border-top:1px solid var(--line);vertical-ali
 .related-card:hover{transform:translateY(-3px)}
 .related .eyebrow,.related-card .eyebrow{font-size:11.5px!important}.related-card h2,.related-card h3{font:300 25px/1.2 var(--serif);margin:12px 0 10px}.related-card p{margin:0;color:#5f5c55;font-size:15px;line-height:1.6}
 .blog-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px;padding:10px 0 90px}
+.related-card.has-cover{padding:0;overflow:hidden}
+.related-card.has-cover .cover{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.related-card.has-cover .card-body{display:block;padding:22px 26px 26px}
 .mobile-toc{display:none}
 @media(max-width:1000px){.article-shell{grid-template-columns:minmax(0,1fr);gap:0}.toc{display:none}.mobile-toc{display:block;margin:0 0 30px;border:1px solid var(--line);border-radius:16px;background:#fffefa;padding:4px 18px}
 .mobile-toc summary{cursor:pointer;padding:12px 0;font-weight:500;color:var(--teal);list-style:none}.mobile-toc ol{margin:0 0 14px;padding-left:20px;font-size:15.5px}.mobile-toc li{margin:0 0 6px}.mobile-toc a{color:#2a2621}}
